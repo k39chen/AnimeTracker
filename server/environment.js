@@ -1,5 +1,3 @@
-var require = Npm.require;
-
 Meteor.startup(function(){
     console.log("Hello World!");
 
