@@ -1,0 +1,21 @@
+<head>
+<title>Animatrix</title>
+</head>
+
+<body>
+	<h1>Animatrix</h1>
+	{{> animelist}}
+</body>
+
+<template name="animelist">
+{{#each list}}
+{{> anime}}
+{{/each}}
+</template>
+
+<template name="anime">
+<div class="anime">
+	<span class="name">{{name}}</span>
+	<span class="desc">{{desc}}</span>
+</div>
+</template>
