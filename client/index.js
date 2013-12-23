@@ -5,7 +5,7 @@ Template.animelist.list = function() {
 $(document).ready(function(){
 
 
-    Meteor.call('getSampleXMLResponse', function(err,result){
+    Meteor.call('getAnimeData', {id: 1234}, function(err,result){
         console.log(result);
         $('body').append(JSON.stringify(result));
     });
