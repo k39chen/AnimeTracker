@@ -1,4 +1,3 @@
-
 var require = Npm.require,
     xml2js = require('xml2js'),
     Future = require('fibers/future');
