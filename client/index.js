@@ -12,10 +12,14 @@ $(document).ready(function(){
 
     $('#send-email-btn').click(function(){
         Meteor.call('sendEmail',
+            'AnimeTracker@notifications.com',
             'k39chen@gmail.com',
-            'k39chen@gmail.com',
-            'Hello from Meteor!',
-            'This is test of Email.send'
+            'Hot and Fresh Anime Episodes!',
+            Template.emailContent({
+                message:"You must see this, it's amazing!",
+                url:"http://animetracker.meteor.com/",
+                title:"Amazing stuff, click me!"
+            })
         );
     });
 
