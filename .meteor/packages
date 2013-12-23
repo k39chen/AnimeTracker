@@ -9,3 +9,5 @@ insecure
 preserve-inputs
 jquery
 xml2js
+accounts-ui
+accounts-password
