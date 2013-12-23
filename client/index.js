@@ -10,5 +10,14 @@ $(document).ready(function(){
         $('body').append(JSON.stringify(result));
     });
 
+    $('#send-email-btn').click(function(){
+        Meteor.call('sendEmail',
+            'k39chen@gmail.com',
+            'k39chen@gmail.com',
+            'Hello from Meteor!',
+            'This is test of Email.send'
+        );
+    });
+
 
 });
