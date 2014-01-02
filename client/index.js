@@ -14,7 +14,7 @@ $(document).ready(function(){
         Meteor.call('sendEmail',
             'AnimeTracker@notifications.com',
             'k39chen@gmail.com',
-            'Hot and Fresh Anime Episodes!',
+            'Hot and Fresh Anime Episodes (2)!',
             Template.emailContent({
                 message:"You must see this, it's amazing!",
                 url:"http://animetracker.meteor.com/",
