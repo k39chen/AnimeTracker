@@ -3,38 +3,6 @@
 </head>
 
 <body>
-	<h1>Anime Tracker</h1>
-
-	{{loginButtons}}
-	<br/>
-	<br/>
-
-	{{> animelist}}
-	<br/>
-
-	<button id="send-email-btn">Send Email</button>
-	<br/>
+	<h1>AnimeTracker</h1>
+	<span>Ranbu no Melody" (乱舞のメロディ; "Melody of the Wild Dance") by SID (eps 292-316)</span>
 </body>
-
-<template name="animelist">
-{{#each list}}
-{{> anime}}
-{{/each}}
-</template>
-
-<template name="anime">
-<div class="anime">
-	<span class="name">{{name}}</span>
-	<span class="desc">{{desc}}</span>
-</div>
-</template>
-
-<template name="emailContent">
-	<style>
-
-	</style>
-	<div class="container"style="text-align:center;padding:24px;border:solid 1px rgb(230,230,230);background:rgb(250,250,250);">
-		<p>{{message}}</p>
-		<a href="{{url}}">{{title}}</a>
-	</div>
-</template>
