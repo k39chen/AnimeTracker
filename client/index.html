@@ -3,6 +3,45 @@
 </head>
 
 <body>
-	<h1>AnimeTracker</h1>
-	<span>Ranbu no Melody" (乱舞のメロディ; "Melody of the Wild Dance") by SID (eps 292-316)</span>
+    {{loginButtons}}
+    <button id='subscribe-btn'>Subscribe</button>
+    <button id='unsubscribe-btn'>Unsubscribe</button>
+
+    {{> cropperDialog}}
+
 </body>
+
+<template name='cropperDialog'>
+<a id='cropper-trigger' href='#cropper-dialog'>TEST</a>
+<div id='cropper-dialog'>
+    <div class='cropper-header'>
+        <h1>Create a Picture for this Anime</h1>
+    </div>
+    <div class='notification-banner'>
+        <span>Bad input source</span>
+    </div>
+    <div class='input-container'>
+        <input class='input-url' type='text' placeholder='Enter picture URL here.' />
+    </div>
+    <div class='wrapper'>
+        <div class='wrapper pull-left'>
+            <div class='tool-group thumbnail pull-left'>
+                <h3>Thumbnail</h3>
+                <div class='tool-container'>
+                    <img class='tool-src' />
+                </div>
+            </div>
+            <div class='tool-group portrait pull-left'>
+                <h3>Portrait</h3>
+                <div class='tool-container'>
+                    <img class='tool-src' />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='footer'>
+        <button class='save-btn'>Save</button>
+        <button class='cancel-btn'>Cancel</button>
+    </div>
+</div>
+</template>

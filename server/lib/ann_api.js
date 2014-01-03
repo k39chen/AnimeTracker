@@ -148,7 +148,38 @@ Meteor.methods({
         result.insertSongs = Songs.find({animeId:animeId,type:'in'},{$sort:{num:1}}).fetch();
 
         return result;
+    },
+
+    subscribeToAnime: function(animeId) {
+        var userId = Meteor.userId();
+
+        // create a relationship between the user and the anime (described with subscription)
+        if (Subscriptions.find({userId:userId,animeId:animeId}).count() > 0) {
+            return 'User is already subscribed to anime with id: '+animeId;
+        }
+        // establish the subscription
+        Subscriptions.insert({
+            userId: userId,
+            animeId: animeId,
+            status: -1, // queued,watching,finished,abandoned,tracking
+            rating: 5
+            // ...
+        });
+        return 'Successfully subscribed user to anime with id: '+animeId;
+    },
+
+    // TODO: Make sure that this also removes all user data associated with this anime
+    unsubscribeFromAnime: function(animeId) {
+        var userId = Meteor.userId();
+
+        // create a relationship between the user and the anime (described with subscription)
+        if (Subscriptions.find({userId:userId}).count() > 0) {
+            Subscriptions.remove({userId:userId,animeId:animeId});
+            return 'Successfully unsubscribed user from anime with id: '+animeId;
+        }       
+        return 'User was not previously subscribed to anime with id: '+animeId;
     }
+
 });
 
 // gets the time since the last update for this anime document

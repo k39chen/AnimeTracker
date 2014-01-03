@@ -12,10 +12,35 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 @font-face { font-family: 'ProximaNovaBd';      src: url('/fonts/ProximaNova-Semibold.otf'); }
 
 /** DEFAULTS **/
-*,html,body { font-size: 13px; font-family: 'ProximaNova', Times, Arial, sans-serif; }
+*,html,body { font-size: 13px; font-family: 'HelveticaNeue', Times, Arial, sans-serif; }
 body { background-color: #F6F6F6; }
-body { min-width: 1280px; }
-b { font-family: 'ProximaNovaBd', Helvetica, Arial, sans-serif; }
+body { min-width: 960px; }
+b { font-family: 'HelveticaNeueBd', Helvetica, Arial, sans-serif; }
 
 html, body, #container { height: 100%; }
 #container { position: relative; }
+
+/** CROPPER **/
+#lean_overlay { position: fixed; z-index:100; top: 0px; left: 0px; height:100%; width:100%; background: #000; display: none; }
+#cropper-dialog { display: none; color: #666; background-color: #FFF; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); }
+#cropper-dialog .cropper-header { padding: 12px; color: #555; background-color: #EAEAEA; border-top-left-radius: 5px; border-top-right-radius: 5px; font-family: 'HelveticaNeueBd'; font-size: 14px; }
+#cropper-dialog .tool-group { float: left; border-right: solid 1px #DDD; background-color: #FAFAFA; }
+#cropper-dialog .tool-group h3 { padding: 12px; text-align: center; background-color: #FFF; border-bottom: solid 1px #DDD; font-family: 'HelveticaNeueBd'; }
+#cropper-dialog .tool-container { width: 300px; height: 300px; }
+#cropper-dialog .input-container { width: 100%; 12px; border-bottom: solid 1px #EEE; }
+#cropper-dialog .input-url { width: 96%; padding: 2%; border: none; }
+#cropper-dialog .notification-banner { overflow: hidden; height: 0px; width: 100%; text-align: center; color: #FFF; background-color: #F17070; }
+#cropper-dialog .notification-banner span { height: 32px; line-height: 32px; }
+#cropper-dialog .footer { padding: 12px; border-top: solid 1px #DDD; text-align: center; }
+#cropper-dialog button { cursor: pointer; width: 64px; padding: 6px 12px; color: #FFF; border: none; border-radius: 5px; font-family: 'HelveticaNeue'; }
+#cropper-dialog .save-btn { background-color: #2DB63D; }
+#cropper-dialog .save-btn:hover { background-color: #43C553; }
+#cropper-dialog .cancel-btn { background-color: #D13A3A; }
+#cropper-dialog .cancel-btn:hover { background-color: #DF5252; }
+
+.jcrop-holder { margin: auto; }
+
+/** MACROS **/
+.pull-left { float: left; }
+.pull-right { float: right; }
+.wrapper { overflow: hidden; }
