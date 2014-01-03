@@ -31,8 +31,10 @@ html, body, #container { height: 100%; }
 #cropper-dialog .tool-container { width: 300px; height: 300px; }
 #cropper-dialog .input-container { width: 100%; 12px; border-bottom: solid 1px #EEE; }
 #cropper-dialog .input-url { width: 96%; padding: 2%; border: none; }
-#cropper-dialog .notification-banner { overflow: hidden; height: 0px; width: 100%; text-align: center; color: #FFF; background-color: #F17070; }
+#cropper-dialog .notification-banner { overflow: hidden; height: 0px; width: 100%; text-align: center; color: #FFF; }
 #cropper-dialog .notification-banner span { height: 32px; line-height: 32px; }
+#cropper-dialog .success-notification-banner { background-color: #52B46A; }
+#cropper-dialog .error-notification-banner { background-color: #F17070; }
 #cropper-dialog .footer { padding: 12px; border-top: solid 1px #DDD; text-align: center; }
 #cropper-dialog button { cursor: pointer; width: 64px; padding: 6px 12px; color: #FFF; border: none; border-radius: 5px; font-family: 'HelveticaNeue'; }
 #cropper-dialog .save-btn { background-color: #2DB63D; }

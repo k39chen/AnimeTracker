@@ -178,6 +178,19 @@ Meteor.methods({
             return 'Successfully unsubscribed user from anime with id: '+animeId;
         }       
         return 'User was not previously subscribed to anime with id: '+animeId;
+    },
+
+    addPicture: function(params){
+        var animeId = params.animeId,
+            type = params.type,
+            pictureDoc = Pictures.findOne({animeId:animeId,type:type});
+
+        if (pictureDoc) {
+            Pictures.update({animeId:animeId,type:type},{$set:params});
+        } else {
+            Pictures.insert(params);
+        }
+        return params;
     }
 
 });
