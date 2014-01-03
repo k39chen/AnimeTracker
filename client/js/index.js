@@ -80,10 +80,9 @@ var CropperWizard = {
                     boxWidth: 300,
                     boxHeight: 300,
                     setSelect: [
-                        (CropperWizard.srcWidth-400)/2,
-                        (CropperWizard.srcHeight-400)/2,
-                        (CropperWizard.srcWidth-400)/2+400,
-                        (CropperWizard.srcHeight-400)/2+400
+                        0, 0,
+                        CropperWizard.srcWidth,
+                        CropperWizard.srcHeight
                     ],
                     onChange: function(c){
                         console.log(c);
