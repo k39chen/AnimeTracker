@@ -36,7 +36,7 @@ var CropperWizard = {
     srcWidth: 0,
     srcHeight: 0,
     init: function(){
-        $('#cropper-trigger').leanModal({closeButton:".cancel-btn"});
+        $('#cropper-trigger').leanModal({closeButton:".close-btn, .cancel-btn"});
 
         $('.input-url').click(function(){
             $(this).select();

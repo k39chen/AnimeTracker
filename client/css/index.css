@@ -26,6 +26,8 @@ html, body, #container { height: 100%; }
 #cropper-dialog .cropper-header { padding: 12px; color: #555; background-color: #EAEAEA; border-top-left-radius: 5px; border-top-right-radius: 5px; font-family: 'HelveticaNeueBd'; font-size: 14px; }
 #cropper-dialog .tool-group { float: left; border-right: solid 1px #DDD; background-color: #FAFAFA; }
 #cropper-dialog .tool-group h3 { padding: 12px; text-align: center; background-color: #FFF; border-bottom: solid 1px #DDD; font-family: 'HelveticaNeueBd'; }
+#cropper-dialog .close-btn { cursor: pointer; font-size: 15px; color: #AAA; }
+#cropper-dialog .close-btn:hover { color: #838383; }
 #cropper-dialog .tool-container { width: 300px; height: 300px; }
 #cropper-dialog .input-container { width: 100%; 12px; border-bottom: solid 1px #EEE; }
 #cropper-dialog .input-url { width: 96%; padding: 2%; border: none; }
@@ -36,7 +38,6 @@ html, body, #container { height: 100%; }
 #cropper-dialog .save-btn { background-color: #2DB63D; }
 #cropper-dialog .save-btn:hover { background-color: #43C553; }
 #cropper-dialog .cancel-btn { background-color: #D13A3A; }
-#cropper-dialog .cancel-btn:hover { background-color: #DF5252; }
 
 .jcrop-holder { margin: auto; }
 
