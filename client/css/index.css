@@ -23,9 +23,9 @@ html, body, #container { height: 100%; }
 /** CROPPER **/
 #lean_overlay { position: fixed; z-index:100; top: 0px; left: 0px; height:100%; width:100%; background: #000; display: none; }
 #cropper-dialog { display: none; color: #666; background-color: #FFF; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); }
-#cropper-dialog .cropper-header { padding: 12px; color: #555; background-color: #EAEAEA; border-top-left-radius: 5px; border-top-right-radius: 5px; font-family: 'HelveticaNeueBd'; font-size: 14px; }
+#cropper-dialog .cropper-header { padding: 12px; color: #555; background-color: #EAEAEA; border-top-left-radius: 5px; border-top-right-radius: 5px; font-size: 14px; }
 #cropper-dialog .tool-group { float: left; border-right: solid 1px #DDD; background-color: #FAFAFA; }
-#cropper-dialog .tool-group h3 { padding: 12px; text-align: center; background-color: #FFF; border-bottom: solid 1px #DDD; font-family: 'HelveticaNeueBd'; }
+#cropper-dialog .tool-group h3 { padding: 12px; text-align: center; background-color: #FFF; border-bottom: solid 1px #DDD; }
 #cropper-dialog .close-btn { cursor: pointer; font-size: 15px; color: #AAA; }
 #cropper-dialog .close-btn:hover { color: #838383; }
 #cropper-dialog .tool-container { width: 300px; height: 300px; }

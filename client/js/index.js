@@ -111,6 +111,7 @@ var CropperWizard = {
                     aspectRatio: 1/1,
                     boxWidth: 300,
                     boxHeight: 300,
+                    minSize: [100,100],
                     setSelect: [
                         (CropperWizard.srcWidth-thumbW)/2,
                         (CropperWizard.srcHeight-thumbH)/2,
@@ -124,6 +125,7 @@ var CropperWizard = {
                     aspectRatio: 10/16,
                     boxWidth: 300,
                     boxHeight: 300,
+                    minSize: [80,50],
                     setSelect: [
                         (CropperWizard.srcWidth-portW)/2,
                         (CropperWizard.srcHeight-portH)/2,
