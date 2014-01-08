@@ -6,49 +6,72 @@
 </head>
 
 <body>
-    {{loginButtons}}
-    <button id='subscribe-btn'>Subscribe</button>
-    <button id='unsubscribe-btn'>Unsubscribe</button>
-
-    {{> cropperDialog}}
-
+    {{> header}}
+    {{> dashboard}}
 </body>
 
-<template name='cropperDialog'>
-<a id='cropper-trigger' href='#cropper-dialog'>TEST</a>
-<div id='cropper-dialog'>
-    <div class='cropper-header wrapper'>
-        <h1 class='pull-left'><i class='fa fa-camera'></i> Create a Picture for this Anime</h1>
-        <div class='pull-right'><i class='close-btn fa fa-times-circle'></i></div>
-    </div>
-    <div class='error-notification-banner notification-banner'>
-        <span>Bad input source</span>
-    </div>
-    <div class='success-notification-banner notification-banner'>
-        <span>Successfully saved changes</span>
-    </div>
-    <div class='input-container'>
-        <input class='input-url' type='text' placeholder='Enter picture URL here.' />
-    </div>
-    <div class='wrapper'>
-        <div class='wrapper pull-left'>
-            <div class='tool-group thumbnail pull-left'>
-                <h3>Thumbnail (1:1)</h3>
-                <div class='tool-container'>
-                    <img class='tool-src' />
-                </div>
-            </div>
-            <div class='tool-group portrait pull-left'>
-                <h3>Portrait (16:10)</h3>
-                <div class='tool-container'>
-                    <img class='tool-src' />
-                </div>
-            </div>
+<template name='header'>
+<div id='header' class='wrapper'>
+    <div class='content'>
+        <div class='pull-left'>
+            <span id='app-title'><b>Anime</b>Tracker</span>
+        </div>
+        <div class='pull-right'>
+            {{loginButtons}}
         </div>
     </div>
-    <div class='footer'>
-        <button class='save-btn'>Save</button>
-        <button class='cancel-btn'>Cancel</button>
+</div>
+</template>
+
+<template name='dashboard'>
+<div id='dashboard' class='content'>
+    {{> feeds}}
+    {{> countdown}}
+    {{> metrics}}
+</div>
+</template>
+
+<template name='feeds'>
+<div id='feeds' class='section'>
+    <div class='section-header'>
+        <div class='section-title'>
+            <i class='fa fa-rss'></i>
+            <span>Feeds</span>
+        </div>
+        <div class='section-controls'>
+        </div>
+    </div>
+    <div class='section-body'>
+    </div>
+</div>
+</template>
+
+<template name='countdown'>
+<div id='countdown' class='section'>
+    <div class='section-header'>
+        <div class='section-title'>
+            <i class='fa fa-clock-o'></i>
+            <span>Countdown</span>
+        </div>
+        <div class='section-controls'>
+        </div>
+    </div>
+    <div class='section-body'>
+    </div>
+</div>
+</template>
+
+<template name='metrics'>
+<div id='metrics' class='section'>
+    <div class='section-header'>
+        <div class='section-title'>
+            <i class='fa fa-bar-chart-o'></i>
+            <span>Metrics</span>
+        </div>
+        <div class='section-controls'>
+        </div>
+    </div>
+    <div class='section-body'>
     </div>
 </div>
 </template>

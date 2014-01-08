@@ -14,18 +14,18 @@ $(function(){
 
     Session.set('animeId',4240);
 
-    CropperWizard.init();
+    //CropperWizard.init();
 
-    $('#subscribe-btn').click(function(){
-        Meteor.call('subscribeToAnime',4240,function(err,res){
-            console.log('subscribeToAnime',res);
-        });
-    });
-    $('#unsubscribe-btn').click(function(){
-        Meteor.call('unsubscribeFromAnime',4240,function(err,res){
-            console.log('unsubscribeFromAnime',res);
-        });
-    });
+    // $('#subscribe-btn').click(function(){
+    //     Meteor.call('subscribeToAnime',4240,function(err,res){
+    //         console.log('subscribeToAnime',res);
+    //     });
+    // });
+    // $('#unsubscribe-btn').click(function(){
+    //     Meteor.call('unsubscribeFromAnime',4240,function(err,res){
+    //         console.log('unsubscribeFromAnime',res);
+    //     });
+    // });
 
 });
 
