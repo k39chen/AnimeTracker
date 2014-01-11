@@ -1,5 +1,14 @@
-var ANN_API = 'http://cdn.animenewsnetwork.com/encyclopedia/api.xml';
-var ANN_REPORTS = 'http://cdn.animenewsnetwork.com/encyclopedia/reports.xml';
+var ANN_API = 'https://animenewsnetwork.p.mashape.com/api.xml';
+var ANN_REPORTS = 'https://animenewsnetwork.p.mashape.com/reports.xml';
+var HUMMINGBIRD_API = 'https://hummingbirdv1.p.mashape.com/anime/';
+var HUMMINGBIRD_SEARCH = 'http://hummingbird.me/search?query={{hbAnimeId}}&type=anime';
+var MASHAPE_KEY = 'pT8ejx9ujTSBpdtA3Dz3BT9KdIZn77VK';
+
+// http://www.rabbitpoets.com/anime-planet-com-a-worthy-replacement-for-myanimelist/
+
+// http://www.anime-planet.com/anime/one-piece
+// http://anime-pictures.net/pictures/view_posts/0?search_tag=bleach&order_by=rating&ldate=0&lang=en
+// http://myanimelist.net/anime/1234
 
 function getSingleField(value) {
     return value && value.length > 0 ? value[0] : null;
@@ -10,10 +19,55 @@ function getArrayField(value) {
 
 Meteor.methods({
 
+    searchHummingbird: function(hbAnimeId){
+        var url = HUMMINGBIRD_SEARCH.replace('{{hbAnimeId}}',encodeURI(hbAnimeId)).replace(/ /g,'+');
+        var response = HTTP.get(url);
+
+        // see if we have received a healthy response from the Hummingbird service
+        if (response.content) {
+            var $ = Cheerio.load(response.content);
+            if ($('.search-result.cf').length > 0) {
+                var match = $('.search-result.cf').first();
+                return $('.columns.title a',match).attr('href').replace('/anime/','');
+            } else {
+                console.log('Error fetching search results for '+hbAnimeId);
+            }
+        }
+        return null;
+    },
+
+    fetchHummingbirdInfo: function(hbAnimeId) {
+        var result = null;
+        try {
+            response = HTTP.get(HUMMINGBIRD_API+hbAnimeId,{
+                headers: {'X-Mashape-Authorization': MASHAPE_KEY}
+            });
+            if (response && response.data) {
+                result = {
+                    hbAnimeId: response.data.slug,
+                    pictureUrl: response.data.cover_image
+                };
+            }
+        } catch(err) {
+            // lets try to a hummingbird search and select the first result, if it exists
+            var hbAnimeId = Meteor.call('searchHummingbird',hbAnimeId);
+            if (hbAnimeId) {
+                return Meteor.call('fetchHummingbirdInfo',hbAnimeId);
+            }
+        }
+        if (!result) {
+            console.log('Error fetching picture for '+hbAnimeId);
+        }
+        return result;
+    },
+
     fetchCompleteAnimeList: function(){
         // if we are issuing this request, then we must be getting info
         // from the source API.
-        var response = HTTP.get(ANN_REPORTS+'?id=155&type=anime&nlist=all');
+        console.log('Fetching complete anime list');
+        var response = HTTP.get(ANN_REPORTS+'?id=155&type=anime&nlist=all',{
+            headers: {'X-Mashape-Authorization': MASHAPE_KEY}
+        });
         if (response.content) {
             var data = XML2JS.parse(response.content);
         
@@ -24,8 +78,22 @@ Meteor.methods({
                     id:    parseInt(getSingleField(item.id),10),
                     title: getSingleField(item.name),
                     type:  getSingleField(item.type).toLowerCase(),
-                    lastUpdate: null
+                    lastUpdate: new Date().valueOf()
                 };
+                console.log('Fetching '+doc.id+': ('+doc.type+') '+doc.title);
+                // lets try to get the picture url
+                console.log('--- Fetching HBI...');
+                var hbi = Meteor.call('fetchHummingbirdInfo',doc.title.slugify());
+                if (hbi) {
+                    doc.hbAnimeId = hbi.hbAnimeId;
+                    if (hbi.pictureUrl == 'http://hummingbird.me/assets/missing-anime-cover.jpg') {
+                        hbi.pictureUrl = null;
+                    }
+                    doc.cover = hbi.pictureUrl;
+                    console.log('--- SUCCESS');
+                } else {
+                    console.log('--- FAILED');
+                }
                 // if this doesn't exist in the collection, add it
                 if (!Animes.findOne({id:doc.id})){
                     Animes.insert(doc);
@@ -37,7 +105,9 @@ Meteor.methods({
     },
 
     fetchAnimeData: function(animeId) {
-        var response = HTTP.get(ANN_API+'?anime='+parseInt(animeId,10));
+        var response = HTTP.get(ANN_API+'?anime='+parseInt(animeId,10),{
+            headers: {'X-Mashape-Authorization': MASHAPE_KEY}
+        });
         if (response.content) {
             var data = XML2JS.parse(response.content);
             data = data.ann.anime[0];
@@ -109,6 +179,9 @@ Meteor.methods({
             }
             doc.lastUpdate = new Date().valueOf();
 
+            // we will try to return an existing document in the collection
+            var animeDoc = Animes.findOne({id:animeId});
+
             // if there is a pre-existing document
             if (animeDoc) {
                 Animes.update({id:animeId},{$set:doc});
@@ -129,7 +202,7 @@ Meteor.methods({
         // to fetch from the API is more than 1 day ago.
         var result = {};
         if (timeSinceLastUpdate(animeDoc) > 24) {
-            result = Meteor.call('fetchAnimeData');
+            result = Meteor.call('fetchAnimeData',animeId);
         } else {
             result = animeDoc;
         }
@@ -161,7 +234,7 @@ Meteor.methods({
         Subscriptions.insert({
             userId: userId,
             animeId: animeId,
-            status: -1, // queued,watching,finished,abandoned,tracking
+            status: -1, // queued,watching,finished,dropped,suspended
             rating: 5
             // ...
         });
@@ -228,4 +301,22 @@ function parseSongString(str) {
         artist   : matches2 ? matches2[1] : matches[3],
         episodes : matches2 ? matches2[2] : null
     };
+}
+String.prototype.slugify = function(){
+  var str = this;
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "ãàáäâẽèéëêìíïîōõòóöôūùúüûñç·/_,:;";
+  var to   = "aaaaaeeeeeiiiioooooouuuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
 }

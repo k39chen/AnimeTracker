@@ -1,18 +1,38 @@
-Meteor.call('getFullAnimeData',4240,function(err,res){
-    console.log('getFullAnimeData',res);
-});
-
-Meteor.call('getShallowAnimeData',4240,function(err,res){
-    console.log('getShallowAnimeData',res);
-});
-
-// Meteor.call('getCompleteAnimeList',function(err,res){
-//     console.log('getCompleteAnimeList',err,res);
+// Meteor.call('searchHummingbird',' Junjō Romantica', function(err,res){
+//     console.log('searchHummingbird',res);
 // });
+
+// Meteor.call('fetchHummingbirdInfo',' Junjo\'s:gate Romantica',function(err,res){
+//     console.log('fetchHummingbirdInfo',res);
+// });
+
+// Meteor.call('getFullAnimeData',4240,function(err,res){
+//     console.log('getFullAnimeData',res);
+// });
+
+// Meteor.call('getShallowAnimeData',4240,function(err,res){
+//     console.log('getShallowAnimeData',res);
+// });
+
+// Meteor.call('fetchCompleteAnimeList',function(err,res){
+//     console.log('fetchCompleteAnimeList',err,res);
+// });
+
+Template.collectionGrid.animes = function(){
+    return Animes.find({},{limit:45}).fetch();
+}
+Template.collectionGrid.rendered = function(){
+    $('.gridItem').hoverable();
+}
 
 $(function(){
 
     Session.set('animeId',4240);
+
+    $('#profile-text-group, .navitem, .notification, .ack, .topbar-btn').hoverable();
+
+    $('#notifications-list').mCustomScrollbar();
+    $('#pagecontainer').mCustomScrollbar();
 
     //CropperWizard.init();
 
@@ -164,3 +184,22 @@ var CropperWizard = {
             .animate({height:0},400);
     }
 };
+
+String.prototype.slugify = function(){
+  var str = this;
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+  var to   = "aaaaaeeeeeiiiiooooouuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
+}

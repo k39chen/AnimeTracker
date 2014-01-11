@@ -12,29 +12,84 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 @font-face { font-family: 'ProximaNovaBd';      src: url('/fonts/ProximaNova-Semibold.otf'); }
 
 /** DEFAULTS **/
-*,html,body { font-size: 13px; font-family: 'ProximaNova', Times, Arial, sans-serif; }
-body { background-color: #EAF0F4; }
-body { min-width: 960px; }
-b { font-family: 'ProximaNovaBd', Helvetica, Arial, sans-serif; }
+*,html,body { font-size: 13px; font-family: 'HelveticaNeue', Times, Arial, sans-serif; }
+body { background-color: #FFF; }
+body { min-width: 1200px; min-height: 400px; overflow-y: hidden; }
+b { font-family: 'HelveticaNeueBd', Helvetica, Arial, sans-serif; }
 
 html, body, #container {}
 #container { position: relative; }
-.content { width: 960px; margin: 0 auto; }
 
-/** HEADER **/
-#header { width: 100%; background-color: #3795DB; color: #FFF; }
-#header .content { line-height: 56px; }
-#app-title { font-size: 17px; }
+/** SIDEBAR **/
+#sidebar { width: 240px; position: absolute; top: 0px; bottom: 0px; background-color: #3E445A; box-shadow: inset -4px 0px 7px rgba(0,0,0,0.3); }
 
-/** DASHBOARD **/
-#dashboard { margin: 36px auto; overflow: hidden; border-radius: 5px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); }
+#navbar { overflow: hidden; border-bottom: solid 1px #30374A; box-shadow: 0px 1px 0px #393F55; margin-bottom: 4px; }
+.navitem { cursor: pointer; float: left; width: 78px; text-align: center; color: #C5C9D2; border-right: solid 1px #464E63; border-left: solid 1px #2D354A; }
+.navitem:nth-child(1) { border-left-color: transparent; }
+.navitem:nth-child(3) { border-right-color: transparent; }
+.navitem.hover { background-color: #353D50; }
+.navitem.active { border-right-color: transparent; color: #00B5F9; }
+.navitem .fa { line-height: 64px; font-size: 32px; }
 
-.section {}
-.section-header { color: #5385C1; background-color: #FFF; border-bottom: solid 1px #E2E2E2; }
-.section-title { padding: 12px 18px; line-height: 16px; }
-.section-title > i { margin-right: 8px; font-size: 16px; }
-.section-title > span {}
-.section-body { min-height: 300px; background-color: #F4F7F9; border-bottom: solid 1px #E6E7E8; }
+#profile { padding: 24px 0px; border-top: solid 1px #4E566D; border-bottom: solid 1px #30374A; box-shadow: 0px 1px 0px #393F55; margin-bottom: 4px; }
+#profile-image { margin: 0 auto; width: 100px; height: 100px; box-shadow: 3px 3px 5px rgba(0,0,0,0.1); background-repeat: no-repeat; background-size: cover; background-position: 50%; border-radius: 50%; margin-bottom: 12px; }
+#profile-image img { width: 100px; }
+#profile-text-group { cursor: pointer; color: #ABB4C1; text-align: center; font-size: 14px; }
+#profile-text-group.hover { color: #00B5F9; }
+#profile-name { margin: 0 auto; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#profile-control { margin-left: 4px; }
+
+#notifications { border-top: solid 1px #4E566D; padding: 12px 0px; }
+#notifications h1 { color: #8991A8; font-size: 12px; padding: 12px 18px; text-transform: uppercase; font-family: 'HelveticaNeueBd'; }
+#notifications-list { position: absolute; top: 300px; bottom: 4px; }
+.notification { cursor: pointer; overflow: hidden; padding: 12px 0px; }
+.notification.hover { background-color: #353D50; }
+.notification > .picture { float: left; margin-left: 8px; margin-right: 8px; width: 32px; height: 32px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1); background-repeat: no-repeat; background-size: cover; background-position: 50%; border-radius: 50%; }
+.notification > .info { float: left; width: 143px; margin-right: 8px;}
+.notification > .info > .message { color: #E0E5F8; margin-bottom: 2px; }
+.notification > .info > .message > span { font-family: 'HelveticaNeueBd'; }
+.notification > .info > .timestamp { color: #8F97AE; }
+.notification > .ack { float: left; margin-right: 8px; font-size: 20px; color: #5B5D77; }
+.notification > .ack.hover { color: #34DA3B; }
+#notifications-list .mCSB_container { margin-right: 16px; }
+
+/** MAIN PANEL**/
+#mainpanel { position: absolute; top: 0px; bottom: 0px; left: 240px; right: 0px; }
+#pagecontainer { position: absolute; top: 64px; bottom: 0px; }
+#pagecontainer .mCSB_dragger_bar { background: rgba(183,183,190,0.75) !important; }
+#pagecontainer .mCSB_draggerRail { background: rgba(216,216,216,0.4); }
+
+/** TOPBAR **/
+#topbar { overflow: hidden; min-width: 960px; border-bottom: solid 1px #E4E6EA; box-shadow: 0px 1px 0px #F6F7F8; }
+
+.topbar-btn { cursor: pointer; margin: 0 !important; width: 78px; line-height: 64px !important; text-align: center; font-size: 24px; color: #9BA3AF; border-left: solid 1px #EEEFF3; border-right: solid 1px #EEEFF3; }
+.topbar-btn.active { background-color: #FFF; color: #00B5F9; border-color: #EEEFF3; }
+.topbar-btn.hover { background-color: #00B5F9; color: #FFF; border-color: #149AEA; }
+
+#searchbar { line-height: 64px; }
+#searchbar i { font-size: 24px; color: #9BA3AF; padding: 0px 18px; }
+#search-field { width: 480px; line-height: 32px; font-family: 'ProximaNova'; font-size: 17px; border: none; outline-color: transparent; color: #9BA3AF; }
+#search-field::-webkit-input-placeholder { font-style: italic; color: #C6CFDB; }
+#search-field::-moz-input-placeholder { font-style: italic; color: #C6CFDB; }
+#search-field:-moz-input-placeholder { font-style: italic; color: #C6CFDB; }
+#search-field:-ms-input-placeholder { font-style: italic; color: #C6CFDB; }
+
+/** GRID **/
+.grid { min-width: 600px; padding: 24px; text-align: center; }
+.gridItem { cursor: pointer; display: inline-block; padding: 18px; text-align: left; }
+.gridItem.hover { background-color: #EAEAEA; }
+.gridItem > .cover { display: block; width: 169px; height: 244px; border: solid 1px #ECECEC; margin-bottom: 8px; }
+.gridItem > .title,
+.gridItem > .episodes { display: block; width: 169px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-bottom: 4px; }
+.gridItem > .title { font-family: 'HelveticaNeueBd'; color: #494B62; }
+.gridItem > .episodes { color: #979FB4; }
+
+@media (max-width:1160px){
+.gridItem > .cover, 
+.gridItem > .title,
+.gridItem > .episodes { width: 140px; }
+.gridItem > .cover { height: 205px; }
+}
 
 /** CROPPER **/
 #lean_overlay { position: fixed; z-index:100; top: 0px; left: 0px; height:100%; width:100%; background: #000; display: none; }

@@ -12,5 +12,6 @@ insecure
 preserve-inputs
 jquery
 xml2js
+cheerio
 http
 email
