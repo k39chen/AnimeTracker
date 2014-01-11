@@ -18,10 +18,10 @@
 //     console.log('fetchCompleteAnimeList',err,res);
 // });
 
-Template.collectionGrid.animes = function(){
+Template.collectionPage.animes = function(){
     return Animes.find({},{limit:45}).fetch();
 }
-Template.collectionGrid.rendered = function(){
+Template.collectionPage.rendered = function(){
     $('.gridItem').hoverable();
 }
 
@@ -31,8 +31,8 @@ $(function(){
 
     $('#profile-text-group, .navitem, .notification, .ack, .topbar-btn').hoverable();
 
-    $('#notifications-list').mCustomScrollbar();
-    $('#pagecontainer').mCustomScrollbar();
+    // intitialize the sidebar
+    Sidebar.init();
 
     //CropperWizard.init();
 
@@ -48,6 +48,57 @@ $(function(){
     // });
 
 });
+
+/** SIDEBAR **/
+var Sidebar = {
+    init: function(){
+        // initialize the scrollbars
+        $('#notifications-list').mCustomScrollbar();
+
+        // initialize controls
+        $('#toggle-sidebar').click(function(){
+            Sidebar.isVisible() ? Sidebar.hide(500) : Sidebar.show(500);
+        });
+        $('.navitem').click(function(){
+            Sidebar.setPage($(this).attr('data-page'));
+        });
+
+        // show the sidebar by default
+        Sidebar.show();
+
+        // show the collection page by default
+        Sidebar.setPage('collection');
+    },
+    setPage: function(page){
+        // show the requested page
+        $('.page').hide();
+        $('#'+page+'Page').show().css({opacity:0}).stop().animate({opacity:1},500);
+
+        // update the navbar controls
+        $('.navitem').removeClass('active');
+        $('#navbar-'+page).addClass('active');
+
+        // reinitialize the scrollbar
+        $('#pagecontainer').mCustomScrollbar('destroy');
+        $('#pagecontainer').mCustomScrollbar();
+    },
+    isVisible: function(){
+        return $('#toggle-sidebar').hasClass('active');
+    },
+    show: function(duration){
+        duration = duration ? duration : 0;
+        $('#sidebar').animate({left:0},duration);
+        $('#mainpanel').animate({left:240},duration);
+        $('#toggle-sidebar').addClass('active');
+    },
+    hide: function(duration){
+        console.log('show');
+        duration = duration ? duration : 0;
+        $('#sidebar').animate({left:-240},duration);
+        $('#mainpanel').animate({left:0},duration);
+        $('#toggle-sidebar').removeClass('active');
+    }
+};
 
 /** CROPPER WIZARD **/
 var CropperWizard = {

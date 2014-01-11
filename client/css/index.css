@@ -54,10 +54,11 @@ html, body, #container {}
 #notifications-list .mCSB_container { margin-right: 16px; }
 
 /** MAIN PANEL**/
-#mainpanel { position: absolute; top: 0px; bottom: 0px; left: 240px; right: 0px; }
+#mainpanel { position: absolute; top: 0px; bottom: 0px; left: 240px; right: 0px; background-color: #FFF; }
 #pagecontainer { position: absolute; top: 64px; bottom: 0px; }
 #pagecontainer .mCSB_dragger_bar { background: rgba(183,183,190,0.75) !important; }
 #pagecontainer .mCSB_draggerRail { background: rgba(216,216,216,0.4); }
+.page { display: none; }
 
 /** TOPBAR **/
 #topbar { overflow: hidden; min-width: 960px; border-bottom: solid 1px #E4E6EA; box-shadow: 0px 1px 0px #F6F7F8; }
