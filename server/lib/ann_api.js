@@ -45,7 +45,8 @@ Meteor.methods({
             if (response && response.data) {
                 result = {
                     hbAnimeId: response.data.slug,
-                    pictureUrl: response.data.cover_image
+                    pictureUrl: response.data.cover_image,
+                    numEpisodes: response.data.status == 'Currently Airing' ? null : response.data.episode_count
                 };
             }
         } catch(err) {
@@ -78,7 +79,7 @@ Meteor.methods({
                     id:    parseInt(getSingleField(item.id),10),
                     title: getSingleField(item.name),
                     type:  getSingleField(item.type).toLowerCase(),
-                    lastUpdate: new Date().valueOf()
+                    lastUpdate: null
                 };
                 console.log('Fetching '+doc.id+': ('+doc.type+') '+doc.title);
                 // lets try to get the picture url
@@ -89,6 +90,7 @@ Meteor.methods({
                     if (hbi.pictureUrl == 'http://hummingbird.me/assets/missing-anime-cover.jpg') {
                         hbi.pictureUrl = null;
                     }
+                    doc.numEpisodes = hbi.numEpisodes;
                     doc.cover = hbi.pictureUrl;
                     console.log('--- SUCCESS');
                 } else {
@@ -129,7 +131,13 @@ Meteor.methods({
                 var value = info[i]['_'];
                 switch (type) {
                     case 'Picture': doc.annPicture = info[i]['$'].src; break;
-                    case 'Genres': doc.genres.push(value.toLowerCase()); break;
+                    case 'Genres': 
+                        var genre = value.toLowerCase();
+                        if (Genres.find({label:genre}).count()>0) {
+                            Genres.insert({label:genre});
+                        }
+                        doc.genres.push(genre);
+                        break;
                     case 'Themes': doc.themes.push(value.toLowerCase()); break;
                     case 'Objectionable content': doc.mature = value.toLowerCase(); break;
                     case 'Plot Summary': doc.plot = value; break;
@@ -278,6 +286,7 @@ function timeSinceLastUpdate(doc) {
 // helper functions for parsing song information
 function insertSong(type,animeId,songStr){
     var songinfo = parseSongString(songStr);
+    if (!songinfo) return null;
     var songobj = {
         animeId: animeId,
         type: type,
@@ -294,13 +303,24 @@ function insertSong(type,animeId,songStr){
 }
 function parseSongString(str) {
     var matches = str.match(/^#([0-9]+):\s(.*)\sby\s(.*)$/);
-    var matches2 = matches[3].match(/^(.*)\s\((ep.*)\)$/);
-    return {
-        num      : parseInt(matches[1],10),
-        song     : matches[2].replace(/"/g,''),
-        artist   : matches2 ? matches2[1] : matches[3],
-        episodes : matches2 ? matches2[2] : null
-    };
+    if (matches) {
+        var matches2 = matches[3].match(/^(.*)\s\((ep.*)\)$/);
+        return {
+            num      : parseInt(matches[1],10),
+            song     : matches[2].replace(/"/g,''),
+            artist   : matches2 ? matches2[1] : matches[3],
+            episodes : matches2 ? matches2[2] : null
+        };
+    } else {
+        matches = str.match(/^(.*)\sby\s(.*)$/);
+        return {
+            num      : 1,
+            song     : matches[1].replace(/"/g,''),
+            artist   : matches[2],
+            episodes : null
+        }
+    }
+    return null;    
 }
 String.prototype.slugify = function(){
   var str = this;

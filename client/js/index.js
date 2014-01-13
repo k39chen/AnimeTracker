@@ -6,9 +6,9 @@
 //     console.log('fetchHummingbirdInfo',res);
 // });
 
-// Meteor.call('getFullAnimeData',4240,function(err,res){
-//     console.log('getFullAnimeData',res);
-// });
+Meteor.call('getFullAnimeData',1,function(err,res){
+    console.log('getFullAnimeData',res);
+});
 
 // Meteor.call('getShallowAnimeData',4240,function(err,res){
 //     console.log('getShallowAnimeData',res);
@@ -19,7 +19,28 @@
 // });
 
 Template.collectionPage.animes = function(){
-    return Animes.find({},{limit:45}).fetch();
+    var items = Animes.find({},{limit:45}).map(function(doc,index,cursor){
+        var props = {};
+        switch (doc.type) {
+            case 'tv'     : props.type = null; break;
+            case 'oav'    : props.type = 'OVA'; break;
+            case 'ona'    : props.type = 'ONA'; break;
+            case 'special': props.type = 'Special'; break;
+            case 'movie'  : props.type = 'Movie'; break;
+            default       : props.type = doc.type; break;
+        }
+        if (doc.type == 'tv') {
+            if (doc.numEpisodes == 0) {
+                props.episodes = doc.numEpisodes + ' Episodes';
+            } else {
+                props.episodes = 'Ongoing Series';
+            }
+        } else {
+            props.episodes = null;
+        }
+        return _.extend(doc,props);
+    });
+    return items;
 }
 Template.collectionPage.rendered = function(){
     $('.gridItem').hoverable();
@@ -29,10 +50,25 @@ $(function(){
 
     Session.set('animeId',4240);
 
-    $('#profile-text-group, .navitem, .notification, .ack, .topbar-btn').hoverable();
+    $('.options-value, .subscribed-flag').hoverable();
 
     // intitialize the sidebar
     Sidebar.init();
+
+    // initialize the topbar
+    Topbar.init();
+
+
+    $('#modalAnimeInfo .sections').mCustomScrollbar();
+
+    $('.gridItem .subscribed-flag').click(function(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).toggleClass('active');
+
+        $('#modalAnimeInfo').reveal($(this).data());
+    });
 
     //CropperWizard.init();
 
@@ -62,6 +98,7 @@ var Sidebar = {
         $('.navitem').click(function(){
             Sidebar.setPage($(this).attr('data-page'));
         });
+        $('#profile-text-group, .navitem, .notification, .ack').hoverable();
 
         // show the sidebar by default
         Sidebar.show();
@@ -92,11 +129,49 @@ var Sidebar = {
         $('#toggle-sidebar').addClass('active');
     },
     hide: function(duration){
-        console.log('show');
         duration = duration ? duration : 0;
         $('#sidebar').animate({left:-240},duration);
         $('#mainpanel').animate({left:0},duration);
         $('#toggle-sidebar').removeClass('active');
+    }
+};
+
+/** TOPBAR **/
+var Topbar = {
+    init: function(){
+        $('.topbar-btn').hoverable();
+
+        $('#toggle-addanime').click(function(){
+            // ...
+        });
+        $('#toggle-metrics').click(function(){
+            $(this).hasClass('active') ? Topbar.hideSubmenu('metrics') : Topbar.showSubmenu('metrics');
+        });
+        $('#toggle-options').click(function(){
+            $(this).hasClass('active') ? Topbar.hideSubmenu('options') : Topbar.showSubmenu('options');
+        });
+    },
+    showSubmenu: function(type){
+        switch (type) {
+            case 'metrics':
+                $('#'+type+'Submenu').show().css({opacity:0.95,height:0}).stop().animate({height:128},300);
+                break;
+            default:
+                $('#'+type+'Submenu').show().css({opacity:0}).stop().animate({opacity:0.95},300);
+                break;
+        }
+        $('#toggle-'+type).addClass('active');
+    },
+    hideSubmenu: function(type){
+        switch (type) {
+            case 'metrics':
+                $('#'+type+'Submenu').show().css({opacity:0.95,height:128}).stop().animate({height:0},300,function(){$(this).hide();});
+                break;
+            default:
+                $('#'+type+'Submenu').show().css({opacity:0.95}).stop().animate({opacity:0},300,function(){$(this).hide();});
+                break;
+        }
+        $('#toggle-'+type).removeClass('active');
     }
 };
 

@@ -11,6 +11,7 @@
         {{> topbar}}
         {{> pagecontainer}}
     </div>
+    {{> modals}}
 </body>
 
 <template name='sidebar'>
@@ -22,31 +23,36 @@
 </template>
 
 <template name='topbar'>
-<div id='topbar'>
-    <i id='toggle-sidebar' class='pull-left topbar-btn fa fa-bars'></i>
-    <div id='searchbar' class='pull-left'>
-        <i class='fa fa-search'></i>
-        <input id='search-field' type='text' placeholder='Search for an anime.' />
+<div id='topbar-container'>
+    <div id='topbar'>
+        <i id='toggle-sidebar' class='pull-left topbar-btn fa fa-bars'></i>
+        <div id='searchbar' class='pull-left'>
+            <i class='fa fa-search'></i>
+            <input id='search-field' type='text' placeholder='Search for an anime in your collection.' />
+        </div>
+        <i id='toggle-options' class='pull-right topbar-btn fa fa-gears' data-type='optionsSubmenu'></i>
+        <i id='toggle-metrics' class='pull-right topbar-btn fa fa-bar-chart-o' data-type='metricsSubmenu'></i>
+        <i id='toggle-addanime' class='pull-right topbar-btn fa fa-plus-circle' data-reveal-id='modalAddAnime'></i>
     </div>
-    <i id='toggle-options' class='pull-right topbar-btn fa fa-gear'></i><!-- this will have filters and view type -->
-    <i id='toggle-sort' class='pull-right topbar-btn fa fa-sort-amount-asc'></i>
-    <i id='toggle-metrics' class='pull-right topbar-btn fa fa-list-ol'></i>
-    <i id='toggle-addanime' class='pull-right topbar-btn fa fa-plus-circle'></i>
+    <div id='topbar-submenus'>
+        {{> metricsSubmenu}}
+        {{> optionsSubmenu}}
+    </div>
 </div>
 </template>
 
 <template name='pagecontainer'>
 <div id='pagecontainer'>
+    {{> homePage}}
     {{> collectionPage}}
-    {{> discoverPage}}
     {{> friendsPage}}
 </div>
 </template>
 
 <template name='navbar'>
 <div id='navbar'>
+    <div id='navbar-home' class='navitem' data-page='home'><i class='fa fa-home'></i></div>
     <div id='navbar-collection' class='navitem' data-page='collection'><i class='fa fa-th'></i></div>
-    <div id='navbar-discover' class='navitem' data-page='discover'><i class='fa fa-globe'></i></div>
     <div id='navbar-friends' class='navitem' data-page='friends'><i class='fa fa-group'></i></div>
 </div>
 </template>
@@ -146,6 +152,103 @@
 </div>
 </template>
 
+<template name='metricsSubmenu'>
+<div id='metricsSubmenu' class='submenu'>
+    <h1>Metrics</h1>
+    <div id='metrics-group'>
+        <span class='metric'>
+            <span class='value'>128</span>
+            <span class='label'>Total Listed</span>
+        </span>
+        <span class='metric'>
+            <span class='value'>12</span>
+            <span class='label'>Watching</span>
+        </span>
+        <span class='metric'>
+            <span class='value'>91</span>
+            <span class='label'>Completed</span>
+        </span>
+        <span class='metric'>
+            <span class='value'>23</span>
+            <span class='label'>On Hold</span>
+        </span>
+        <span class='metric'>
+            <span class='value'>12</span>
+            <span class='label'>Backlogged</span>
+        </span>
+        <span class='metric'>
+            <span class='value'>2</span>
+            <span class='label'>Abandoned</span>
+        </span>
+    </div>
+</div>
+</template>
+
+<template name='optionsSubmenu' class='submenu'>
+<div id='optionsSubmenu' class='submenu'>
+    <h1>Options</h1>
+    <div id='options-container'>
+        <div class='options-group'>
+            <div class='options-title'>Sort By</div>
+            <div class='options-values'>
+                <span class='options-value'>Title</span>
+                <span class='options-value'>Type</span>
+                <span class='options-value'>Status</span>
+                <span class='options-value'>Rating</span>
+                <span class='options-value'>Length</span>
+            </div>
+        </div>
+        <div class='options-group'>
+            <div class='options-title'>User Status</div>
+            <div class='options-values'>
+                <span class='options-value'>Any User Status</span>
+                <span class='options-value'>Watching</span>
+                <span class='options-value'>Completed</span>
+                <span class='options-value'>On Hold</span>
+                <span class='options-value'>Backlogged</span>
+                <span class='options-value'>Abandoned</span>
+            </div>
+        </div>
+        <div class='options-group'>
+            <div class='options-title'>Airing Status</div>
+            <div class='options-values'>
+                <span class='options-value'>Any Airing Status</span>
+                <span class='options-value'>Ongoing</span>
+                <span class='options-value'>Completed</span>
+            </div>
+        </div>
+        <div class='options-group'>
+            <div class='options-title'>Series Length</div>
+            <div class='options-values'>
+                <span class='options-value'>Any Length</span>
+                <span class='options-value'>1-13</span>
+                <span class='options-value'>14-26</span>
+                <span class='options-value'>27-54</span>
+                <span class='options-value'>55+</span>
+            </div>
+        </div>
+        <div class='options-group'>
+            <div class='options-title'>Rating</div>
+            <div class='options-values'>
+                <span class='options-value'>Any Rating</span>
+                <span class='options-value'><i class='fa fa-star-o'></i></span>
+                <span class='options-value'><i class='fa fa-star'></i></span>
+                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
+                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
+                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
+                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<template name='homePage'>
+<div id='homePage' class='page'>
+home
+</div>
+</template>
+
 <template name='collectionPage'>
 <div id='collectionPage' class='page'>
     <div class='grid'>
@@ -157,25 +260,112 @@
 </template>
 
 <template name='collectionItem'>
-<span class='gridItem'>
+<span class='gridItem' data-reveal-id='modalAnimeInfo'>
+
+    <div class='subscribed-flag fa fa-bookmark'></div>
+
     {{#if cover}}
     <img class='cover' src='{{cover}}' />
     {{else}}
     <img class='cover' src='assets/default_cover.jpg' />
     {{/if}}
     <span class='title'>{{title}}</span>
-    <span class='episodes'>329 Episodes (Ongoing)</span>
+    {{#if type}}
+    <span class='type'>{{type}}</span>
+    {{/if}}
+    {{#if episodes}}
+    <span class='episodes'>{{episodes}}</span>
+    {{/if}}
 </span>
-</template>
-
-<template name='discoverPage'>
-<div id='discoverPage' class='page'>
-discover
-</div>
 </template>
 
 <template name='friendsPage'>
 <div id='friendsPage' class='page'>
 friends
+</div>
+</template>
+
+<template name='modals'>
+{{> modalAddAnime}}
+{{> modalAnimeInfo}}
+</template>
+
+<template name='modalAnimeInfo'>
+<div id="modalAnimeInfo" class="reveal-modal" data-reveal>
+    <a class="close-reveal-modal fa fa-times"></a>
+    {{> animeInfo}}
+</div>
+</template>
+
+<template name='modalAddAnime'>
+<div id="modalAddAnime" class="reveal-modal" data-reveal>
+    <a class="close-reveal-modal fa fa-times"></a>
+
+    <div class='modal-topbar'>
+        <i class='fa fa-search'></i>
+        <input type='text' placeholder='Search for the anime you want to add to your collection...' />
+    </div>
+
+    {{> animeInfo}}
+</div>
+</template>
+
+<template name='animeInfo'>
+<div class='animeInfo'>
+    <div class='leftpane'>
+        <div class='corner'>TV Series</div>
+        <img class='cover' src="http://static.hummingbird.me/anime/poster_images/000/004/676/large/1359285144_ced40a6b0022a466db175962c8aa26c3.png?1383493907">
+    </div>
+
+    <div class='rightpane'>
+        <div class='title'>Kamigami no Asobi ~Ludere deorum~</div>
+
+        <div class='subscribed-flag fa fa-bookmark'></div>
+
+        <div class='sections'>
+            <div class='section'>
+                <div class='fields'>
+                    <div class='field'>
+                        <span class='name'>Status</span>
+                        <span class='value blue'>Watching</span>
+                    </div>
+                    <div class='field'>
+                        <span class='name'>Episodes</span>
+                        <span class='value'>11 Episodes (Ongoing Series)</span>
+                    </div>
+                    <div class='field'>
+                        <span class='name'>Genres</span>
+                        <span class='value'>Action, Drama, Science Fiction</span>
+                    </div>
+                    <div class='field'>
+                        <span class='name'>Themes</span>
+                        <span class='value'>Fanservice, Pirates, Space</span>
+                    </div>
+                    <div class='field'>
+                        <span class='name'>Rating</span>
+                        <span class='value'>
+                            <i class='fa fa-star'></i>
+                            <i class='fa fa-star'></i>
+                            <i class='fa fa-star'></i>
+                            <i class='fa fa-star'></i>
+                            <i class='fa fa-star-o'></i>
+                        </span>
+                    </div>
+                </div>
+                <p>
+                    Li Meifon is the head of a free, no expenses paid protection/security agency for escorting ships across outer space. Though only 16, she possesses great skill and leadership qualities while commanding her crew aboard their ship, the <i>Angel Links</i>. However, some unpleasant memories begin to trouble her and she starts questioning her own past and reason for existence. Join Li Meifon and the rest of the <i>Angel Links</i> crew on their adventures through the Oracion star system as they battle pirates, government organizations, and a Tao master, all while finally uncovering Meifon's dark and mysterious past.
+                </p>
+            </div>
+            <!-- 
+            OPENING THEMES
+            ENDING THEMES
+            INSERT SONGS
+
+            EPISODES DETAILS
+            FRIENDS
+            -->
+
+        </div>
+    </div>
 </div>
 </template>
