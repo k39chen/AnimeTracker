@@ -48,9 +48,7 @@ Template.collectionPage.rendered = function(){
 
 $(function(){
 
-    Session.set('animeId',4240);
-
-    $('.options-value, .subscribed-flag').hoverable();
+    $('.options-value').hoverable();
 
     // intitialize the sidebar
     Sidebar.init();
@@ -58,8 +56,10 @@ $(function(){
     // initialize the topbar
     Topbar.init();
 
+    // initialize the anime info modal
+    AnimeInfoModal.init();
 
-    $('#modalAnimeInfo .sections').mCustomScrollbar();
+
 
     $('.gridItem .subscribed-flag').click(function(e){
 
@@ -69,19 +69,6 @@ $(function(){
 
         $('#modalAnimeInfo').reveal($(this).data());
     });
-
-    //CropperWizard.init();
-
-    // $('#subscribe-btn').click(function(){
-    //     Meteor.call('subscribeToAnime',4240,function(err,res){
-    //         console.log('subscribeToAnime',res);
-    //     });
-    // });
-    // $('#unsubscribe-btn').click(function(){
-    //     Meteor.call('unsubscribeFromAnime',4240,function(err,res){
-    //         console.log('unsubscribeFromAnime',res);
-    //     });
-    // });
 
 });
 
@@ -173,6 +160,46 @@ var Topbar = {
         }
         $('#toggle-'+type).removeClass('active');
     }
+};
+
+/** ANIME INFO MODAL **/
+var AnimeInfoModal = {
+
+    init: function() {
+        // initialize hoverable items
+        $('.subscribed-flag, .animeInfo-navtrigger, .animeInfo-navitem').hoverable();
+
+        // intialize dropdown menu for the navbar
+        $('.animeInfo-navbar').dropit({
+            action: 'click',
+            triggerEl: '.animeInfo-navtrigger'
+        });
+        // set up interaction to switch pages
+        $('.animeInfo-navitem').click(function(){
+            AnimeInfoModal.setPage($(this).attr('data-page'));
+        });
+
+        // by default set the profile page
+        AnimeInfoModal.setPage('profile');
+    },
+    setPage: function(page) {
+        var pageObj = $('.modalpage[data-page="'+page+'"]');
+
+        // show the requested page
+        $('.modalpage').hide();
+        pageObj.show().css({opacity:0}).stop().animate({opacity:1},500);
+
+        // update the navbar controls
+        $('.animeInfo-navtrigger span').text(page.capitalize());
+        $('.animeInfo-navitem').removeClass('active');
+        $('.animeInfo-navitem[data-page="'+page+'"]').addClass('active');
+
+        // reinitialize the scrollbar
+        pageObj.mCustomScrollbar('destroy');
+        pageObj.mCustomScrollbar();
+    }
+
+
 };
 
 /** CROPPER WIZARD **/
@@ -328,4 +355,10 @@ String.prototype.slugify = function(){
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+}
+String.prototype.capitalize = function(){
+    var str = this;
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }

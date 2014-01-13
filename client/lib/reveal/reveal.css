@@ -20,7 +20,7 @@
 		left: 50%;
 		margin-left: -300px;
 		width: 520px;
-		background: #FFF url(assets/modal-gloss.png) no-repeat -200px -80px;
+		background: #FFF url(/assets/modal-gloss.png) no-repeat -200px -80px;
 		position: absolute;
 		z-index: 10000;
 		-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
@@ -34,6 +34,7 @@
 	.reveal-modal.xlarge 		{ width: 800px; margin-left: -440px;}
 	
 	.reveal-modal .close-reveal-modal {
+		z-index: 10001;
 		position: absolute;
 		top: -16px;
 		right: -16px;

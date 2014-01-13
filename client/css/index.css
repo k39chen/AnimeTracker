@@ -144,21 +144,29 @@ html, body, #container {}
 #modalAddAnime .animeInfo { display: none; }
 
 /** ANIME INFO **/
-.animeInfo { overflow: hidden; background-color: #353C4F; color: #FFF; }
+.animeInfo { position: relative; overflow: hidden; background-color: #353C4F; color: #FFF; }
 
 .animeInfo .leftpane { float: left; width: 200px; }
-.animeInfo .corner { font-family: 'HelveticaNeueLt'; font-size: 18px; line-height: 48px; background-color: #006EF9; border-bottom: solid 1px #15697E; text-align: center; }
+.animeInfo-navtrigger { cursor: pointer; overflow: hidden; font-family: 'HelveticaNeueLt'; font-size: 18px; line-height: 48px; background-color: #006EF9; border-bottom: solid 1px #15697E; text-align: center; }
+.animeInfo-navtrigger i { float: right; line-height: 48px; margin-right: 12px; font-size: 12px; }
+.animeInfo-navtrigger.hover { background-color: #2582F7; border-bottom: solid 1px #318BA2; }
 .animeInfo .cover { display: block; width: 200px; height: 290px; }
+
+.animeInfo .dropit-submenu { position: absolute; background-color: #3E445A; font-family: 'HelveticaNeueLt'; font-size: 18px; width: 200px; line-height: 48px; box-shadow: 0px 2px 5px rgba(0,0,0,0.4);}
+.animeInfo-navitem { cursor: pointer; padding-left: 12px; color: #C5C9D2; border-top: solid 1px #4E566D; border-bottom: solid 1px #30374A; border-left: solid 1px #4E566D; border-right: solid 1px #30374A; }
+.animeInfo-navitem:nth-child(1) { border-top: none; }
+.animeInfo-navitem.hover { background-color: #353D50; border-top-color: #30374A; border-left-color: #30374A; }
+.animeInfo-navitem.active { border-right-color: transparent; color: #00B5F9; }
 
 .animeInfo .rightpane { float: left; width: 480px; }
 .animeInfo .title { overflow: hidden; height: 48px; text-overflow: ellipsis; white-space: nowrap; padding-left: 24px; line-height: 48px; font-family: 'HelveticaNeueLt'; font-size: 18px; background-color: #49506A; color: #DEDEE8; border-bottom: solid 1px #30374A; box-shadow: 0px 1px 0px #393F55; }
 
-.animeInfo .subscribed-flag { cursor: pointer; position: absolute; z-index: 10002; top: 64px; right: 24px; font-size: 17px; width: 32px; height: 32px; line-height: 32px; text-align: center; color: #8A8A8A; border: solid 4px #8A8A8A; border-radius: 50%; box-shadow: 0px 0px 10px rgba(0,0,0,0.5);}
+.animeInfo .subscribed-flag { cursor: pointer; position: absolute; z-index: 10002; top: 12px; right: 24px; font-size: 17px; width: 32px; height: 32px; line-height: 32px; text-align: center; color: #8A8A8A; border: solid 4px #8A8A8A; border-radius: 50%; box-shadow: 0px 0px 10px rgba(0,0,0,0.5);}
 .animeInfo .subscribed-flag.hover { color: #FFF; border-color: #FFF; }
 .animeInfo .subscribed-flag.active { background-color: #2DCA17; color: #FFF; border-color: #FFF; }
 .animeInfo .subscribed-flag.active.hover { background-color: #54CE42; }
 
-.animeInfo .sections { height: 280px; margin-top: 4px; }
+.animeInfo .modalpage { height: 280px; margin-top: 4px; }
 .animeInfo .section { padding: 12px 24px; }
 
 .animeInfo .fields { margin-bottom: 18px; }
