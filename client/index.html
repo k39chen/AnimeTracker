@@ -244,13 +244,13 @@
 </template>
 
 <template name='homePage'>
-<div id='homePage' class='page'>
+<div class='page' data-page='home'>
 home
 </div>
 </template>
 
 <template name='collectionPage'>
-<div id='collectionPage' class='page'>
+<div class='page' data-page='collection'>
     <div class='grid'>
         {{#each animes}}
         {{> collectionItem}}
@@ -280,7 +280,7 @@ home
 </template>
 
 <template name='friendsPage'>
-<div id='friendsPage' class='page'>
+<div class='page' data-page='friends'>
 friends
 </div>
 </template>

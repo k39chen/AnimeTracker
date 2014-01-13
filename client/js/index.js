@@ -96,7 +96,7 @@ var Sidebar = {
     setPage: function(page){
         // show the requested page
         $('.page').hide();
-        $('#'+page+'Page').show().css({opacity:0}).stop().animate({opacity:1},500);
+        $('.page[data-page="'+page+'"]').show().css({opacity:0}).stop().animate({opacity:1},500);
 
         // update the navbar controls
         $('.navitem').removeClass('active');
