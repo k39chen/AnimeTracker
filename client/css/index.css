@@ -74,28 +74,24 @@ html, body, #container {}
 #search-field:-moz-input-placeholder { font-style: italic; color: #C6CFDB; }
 #search-field:-ms-input-placeholder { font-style: italic; color: #C6CFDB; }
 
-/** SUBTOPBAR **/
-#topbar-submenus { position: absolute; z-index: 1001; left: 0px; right: 0px; top: 64px; }
-.submenu { background-color: #ECF2F6; color: #97A1B0; border-bottom: solid 1px #D2DAE2; display: none; }
-.submenu h1 { margin-bottom: 16px; padding: 12px 24px; font-family: 'HelveticaNeueBd'; color: #9294A3; text-align: center; text-transform: uppercase; }
-
-#metricsSubmenu { height: 128px; }
-#metricsSubmenu h1 { border-bottom: solid 3px #F5B35F; }
-#metrics-group { text-align: center; }
-.metric { display: inline-block; margin: 0px 24px; text-align: center; }
+/** METRICS **/
+#metricsmenu { overflow: hidden; position: absolute; left: 0px; right: 0px; z-index: 10000; min-width: 960px; height: 64px; text-align: center; background-color: #ECF2F6; color: #97A1B0; border-top: solid 1px #D2DAE2; border-bottom: solid 1px #D2DAE2; }
+.metric { display: inline-block; margin: 7px 24px; text-align: center; }
 .metric > .value, .metric > .label { display: block; }
 .metric > .value { color: #555; font-size: 32px; font-family: 'HelveticaNeueLt'; margin-bottom: 4px; }
 .metric > .label { color: #9294A3; font-size: 11px; text-transform: uppercase; }
 
-#optionsSubmenu h1 { border-bottom: solid 3px #6DD88B; }
-#options-container {}
-.options-group { overflow: hidden; margin-bottom: 16px; line-height: 24px; }
-.options-title { float: left; width: 160px; margin-right: 24px; font-family: 'HelveticaNeueBd'; color: #A5A5A5; text-align: right; text-transform: uppercase; }
-.options-values { float: left; }
-.options-value { cursor: pointer; display: inline-block; padding: 0px 12px; color: #555; margin-right: 8px; }
-.options-value.hover { color: #00B5F9; } 
-.options-value.active { background-color: #00B5F9; color: #FFF; }
-.options-value .fa-star { padding: 0px 2px; }
+/** OPTIONS MENU **/
+#optionsmenu { width: 240px; position: absolute; top: 0px; bottom: 0px; right: 0px; background-color: #3E445A; box-shadow: inset 4px 0px 7px rgba(0,0,0,0.3); }
+#optionsmenu h1 { line-height: 64px; text-transform: uppercase; text-align: center; font-family: 'HelveticaNeueBd'; color: #C5C9D2; border-bottom: solid 1px #30374A; box-shadow: 0px 1px 0px #393F55; margin-bottom: 4px; }
+#optionsmenu-sections { position: absolute; top: 68px; bottom: 4px; width: 240px; }
+.optionsmenu-section { padding: 8px 0px; border-top: solid 1px #4E566D; border-bottom: solid 1px #30374A; box-shadow: 0px 1px 0px #393F55; margin-bottom: 4px; }
+.optionsmenu-section h2 { color: #8991A8; font-size: 12px; padding: 8px 18px; text-transform: uppercase; font-family: 'HelveticaNeueBd'; }
+.optionsmenu-item { cursor: pointer; overflow: hidden; padding: 8px 18px; color: #E0E5F8; }
+.optionsmenu-item .tickbox { margin-right: 4px; color: #5B5D77; }
+.optionsmenu-item.hover, .optionsmenu-item.hover .tickbox { background-color: #353D50; color: #00B5F9; }
+.optionsmenu-item.active, .optionsmenu-item.active .tickbox { color: #00B5F9; }
+#optionsmenu-sections .mCSB_container { margin-right: 4px; }
 
 /** GRID **/
 .grid { min-width: 600px; padding: 24px; text-align: center; }

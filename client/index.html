@@ -7,8 +7,6 @@ NOTIFICATIONS : EXPIRE AND DELETE AFTER X HOURS
 RECOMMENDATIONS : RECOMMENDING TO ANOTHER FRIEND (CAN ALSO SEND COMMENT)
 FRIENDS : ALL THE FRIENDS THAT ARE SUBSCRIBED TO THE ANIME (STATUS,STARS)
 
-
-
 BADGE : CYCLE THROUGH USER STATUSES FROM THE COLLECTION
 
 DROP : ON-HOLD
@@ -28,8 +26,10 @@ DROP : ON-HOLD
     {{> sidebar}}
     <div id='mainpanel'>
         {{> topbar}}
+        {{> metricsmenu}}
         {{> pagecontainer}}
     </div>
+    {{> optionsmenu}}
     {{> modals}}
 </body>
 
@@ -42,20 +42,100 @@ DROP : ON-HOLD
 </template>
 
 <template name='topbar'>
-<div id='topbar-container'>
-    <div id='topbar'>
-        <i id='toggle-sidebar' class='pull-left topbar-btn fa fa-bars'></i>
-        <div id='searchbar' class='pull-left'>
-            <i class='fa fa-search'></i>
-            <input id='search-field' type='text' placeholder='Search for an anime in your collection.' />
-        </div>
-        <i id='toggle-options' class='pull-right topbar-btn fa fa-gears' data-type='optionsSubmenu'></i>
-        <i id='toggle-metrics' class='pull-right topbar-btn fa fa-bar-chart-o' data-type='metricsSubmenu'></i>
-        <i id='toggle-addanime' class='pull-right topbar-btn fa fa-plus-circle' data-reveal-id='modalAddAnime'></i>
+<div id='topbar'>
+    <i id='toggle-sidebar' class='pull-left topbar-btn fa fa-bars'></i>
+    <div id='searchbar' class='pull-left'>
+        <i class='fa fa-search'></i>
+        <input id='search-field' type='text' placeholder='Search for an anime in your collection.' />
     </div>
-    <div id='topbar-submenus'>
-        {{> metricsSubmenu}}
-        {{> optionsSubmenu}}
+    <i id='toggle-optionsmenu' class='pull-right topbar-btn fa fa-gears'></i>
+    <i id='toggle-metricsmenu' class='pull-right topbar-btn fa fa-bar-chart-o'></i>
+    <i id='toggle-addanime' class='pull-right topbar-btn fa fa-plus-circle'></i>
+</div>
+</template>
+
+<template name='metricsmenu'>
+<div id='metricsmenu'>
+    <span class='metric'>
+        <span class='value'>128</span>
+        <span class='label'>Total Listed</span>
+    </span>
+    <span class='metric'>
+        <span class='value'>12</span>
+        <span class='label'>Watching</span>
+    </span>
+    <span class='metric'>
+        <span class='value'>91</span>
+        <span class='label'>Completed</span>
+    </span>
+    <span class='metric'>
+        <span class='value'>23</span>
+        <span class='label'>On Hold</span>
+    </span>
+    <span class='metric'>
+        <span class='value'>12</span>
+        <span class='label'>Backlogged</span>
+    </span>
+    <span class='metric'>
+        <span class='value'>2</span>
+        <span class='label'>Abandoned</span>
+    </span>
+</div>
+</template>
+
+<template name='optionsmenu'>
+<div id='optionsmenu'>
+    <h1>Options & Settings</h1>
+    <div id='optionsmenu-sections'>
+        <div class='optionsmenu-section' data-section='sortby'>
+            <h2>Sort By</h2>
+            <div class='optionsmenu-item' data-value='title' data-default><i class='tickbox fa fa-circle'></i> Title</div>
+            <div class='optionsmenu-item' data-value='type'><i class='tickbox fa fa-circle'></i> Type</div>
+            <div class='optionsmenu-item' data-value='status'><i class='tickbox fa fa-circle'></i> Status</div>
+            <div class='optionsmenu-item' data-value='rating'><i class='tickbox fa fa-circle'></i> Rating</div>
+            <div class='optionsmenu-item' data-value='length'><i class='tickbox fa fa-circle'></i> Length</div>
+        </div>
+        <div class='optionsmenu-section' data-section='type'>
+            <h2>Type</h2>
+            <div class='optionsmenu-item' data-value='any' data-default><i class='tickbox fa fa-circle'></i> Any Type</div>
+            <div class='optionsmenu-item' data-value='tv'><i class='tickbox fa fa-circle'></i> TV Series</div>
+            <div class='optionsmenu-item' data-value='movie'><i class='tickbox fa fa-circle'></i> Movie</div>
+            <div class='optionsmenu-item' data-value='ova'><i class='tickbox fa fa-circle'></i> OVA</div>
+            <div class='optionsmenu-item' data-value='ona'><i class='tickbox fa fa-circle'></i> ONA</div>
+        </div>
+        <div class='optionsmenu-section' data-section='userstatus'>
+            <h2>User Status</h2>
+            <div class='optionsmenu-item' data-value='any' data-default><i class='tickbox fa fa-circle'></i> Any User Status</div>
+            <div class='optionsmenu-item' data-value='watching'><i class='tickbox fa fa-circle'></i> Watching</div>
+            <div class='optionsmenu-item' data-value='completed'><i class='tickbox fa fa-circle'></i> Completed</div>
+            <div class='optionsmenu-item' data-value='onhold'><i class='tickbox fa fa-circle'></i> On Hold</div>
+            <div class='optionsmenu-item' data-value='backlogged'><i class='tickbox fa fa-circle'></i> Backlogged</div>
+            <div class='optionsmenu-item' data-value='abandoned'><i class='tickbox fa fa-circle'></i> Abandoned</div>
+        </div>
+        <div class='optionsmenu-section' data-section='airingstatus'>
+            <h2>Airing Status</h2>
+            <div class='optionsmenu-item' data-value='any' data-default><i class='tickbox fa fa-circle'></i> Any Airing Status</div>
+            <div class='optionsmenu-item' data-value='ongoing'><i class='tickbox fa fa-circle'></i> Ongoing</div>
+            <div class='optionsmenu-item' data-value='completed'><i class='tickbox fa fa-circle'></i> Completed</div>
+        </div>
+        <div class='optionsmenu-section' data-section='length'>
+            <h2>Series Length</h2>
+            <div class='optionsmenu-item' data-value='any' data-default><i class='tickbox fa fa-circle'></i> Any Length</div>
+            <div class='optionsmenu-item' data-value='1to13'><i class='tickbox fa fa-circle'></i> 1-13</div>
+            <div class='optionsmenu-item' data-value='14to26'><i class='tickbox fa fa-circle'></i> 14-26</div>
+            <div class='optionsmenu-item' data-value='27to54'><i class='tickbox fa fa-circle'></i> 27-54</div>
+            <div class='optionsmenu-item' data-value='55plus'><i class='tickbox fa fa-circle'></i> 55+</div>
+        </div>
+        <div class='optionsmenu-section' data-section='rating'>
+            <h2>Rating</h2>
+            <div class='optionsmenu-item' data-value='any' data-default><i class='tickbox fa fa-circle'></i> Any Rating</div>
+            <div class='optionsmenu-item' data-value='0'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star-o'></i></div>
+            <div class='optionsmenu-item' data-value='1'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star'></i></div>
+            <div class='optionsmenu-item' data-value='2'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star'></i><i class='fa fa-star'></i></div>
+            <div class='optionsmenu-item' data-value='3'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></div>
+            <div class='optionsmenu-item' data-value='4'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></div>
+            <div class='optionsmenu-item' data-value='5'><i class='tickbox fa fa-circle'></i> <i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></div>
+        </div>
     </div>
 </div>
 </template>
@@ -199,97 +279,6 @@ DROP : ON-HOLD
 </div>
 </template>
 
-<template name='metricsSubmenu'>
-<div id='metricsSubmenu' class='submenu'>
-    <h1>Metrics</h1>
-    <div id='metrics-group'>
-        <span class='metric'>
-            <span class='value'>128</span>
-            <span class='label'>Total Listed</span>
-        </span>
-        <span class='metric'>
-            <span class='value'>12</span>
-            <span class='label'>Watching</span>
-        </span>
-        <span class='metric'>
-            <span class='value'>91</span>
-            <span class='label'>Completed</span>
-        </span>
-        <span class='metric'>
-            <span class='value'>23</span>
-            <span class='label'>On Hold</span>
-        </span>
-        <span class='metric'>
-            <span class='value'>12</span>
-            <span class='label'>Backlogged</span>
-        </span>
-        <span class='metric'>
-            <span class='value'>2</span>
-            <span class='label'>Abandoned</span>
-        </span>
-    </div>
-</div>
-</template>
-
-<template name='optionsSubmenu' class='submenu'>
-<div id='optionsSubmenu' class='submenu'>
-    <h1>Options</h1>
-    <div id='options-container'>
-        <div class='options-group'>
-            <div class='options-title'>Sort By</div>
-            <div class='options-values'>
-                <span class='options-value'>Title</span>
-                <span class='options-value'>Type</span>
-                <span class='options-value'>Status</span>
-                <span class='options-value'>Rating</span>
-                <span class='options-value'>Length</span>
-            </div>
-        </div>
-        <div class='options-group'>
-            <div class='options-title'>User Status</div>
-            <div class='options-values'>
-                <span class='options-value'>Any User Status</span>
-                <span class='options-value'>Watching</span>
-                <span class='options-value'>Completed</span>
-                <span class='options-value'>On Hold</span>
-                <span class='options-value'>Backlogged</span>
-                <span class='options-value'>Abandoned</span>
-            </div>
-        </div>
-        <div class='options-group'>
-            <div class='options-title'>Airing Status</div>
-            <div class='options-values'>
-                <span class='options-value'>Any Airing Status</span>
-                <span class='options-value'>Ongoing</span>
-                <span class='options-value'>Completed</span>
-            </div>
-        </div>
-        <div class='options-group'>
-            <div class='options-title'>Series Length</div>
-            <div class='options-values'>
-                <span class='options-value'>Any Length</span>
-                <span class='options-value'>1-13</span>
-                <span class='options-value'>14-26</span>
-                <span class='options-value'>27-54</span>
-                <span class='options-value'>55+</span>
-            </div>
-        </div>
-        <div class='options-group'>
-            <div class='options-title'>Rating</div>
-            <div class='options-values'>
-                <span class='options-value'>Any Rating</span>
-                <span class='options-value'><i class='fa fa-star-o'></i></span>
-                <span class='options-value'><i class='fa fa-star'></i></span>
-                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
-                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
-                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
-                <span class='options-value'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>
-            </div>
-        </div>
-    </div>
-</div>
-</template>
-
 <template name='homePage'>
 <div class='page' data-page='home'>
 home
@@ -345,7 +334,7 @@ friends
 </template>
 
 <template name='modalAddAnime'>
-<div id="modalAddAnime" class="reveal-modal" data-reveal>
+<div id="modalAddAnime" class="reveal-modal">
     <a class="close-reveal-modal fa fa-times"></a>
 
     <div class='modal-topbar'>

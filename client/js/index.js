@@ -2,15 +2,22 @@ $(function(){
     // intitialize the sidebar
     Sidebar.init();
 
-    // initialize the topbar
-    Topbar.init();
+    // initialize the metrics menu
+    MetricsMenu.init();
+
+    // initialize the options menu
+    OptionsMenu.init();
 
     // initialize the anime info modal
     AnimeInfoModal.init();
 
-    // some miscellaneous hoverable items to initialize
-    $('.options-value').hoverable();
 
+
+    $('#toggle-addanime').hoverable().click(function(){
+
+        $('#modalAddAnime').reveal();
+
+    });
 });
 
 /** SIDEBAR **/
@@ -20,7 +27,7 @@ var Sidebar = {
         $('#notifications-list').mCustomScrollbar();
 
         // initialize controls
-        $('#toggle-sidebar').click(function(){
+        $('#toggle-sidebar').hoverable().click(function(){
             Sidebar.isVisible() ? Sidebar.hide(500) : Sidebar.show(500);
         });
         $('.navitem').click(function(){
@@ -64,42 +71,86 @@ var Sidebar = {
     }
 };
 
-/** TOPBAR **/
-var Topbar = {
-    init: function(){
-        $('.topbar-btn').hoverable();
+/** METRICS MENUS **/
+var MetricsMenu = {
+    init: function() {
+        $('#toggle-metricsmenu').hoverable().click(function(){
+            MetricsMenu.isVisible() ? MetricsMenu.hide(500) : MetricsMenu.show(500);
+        });
+        // hide the metrics menu by default
+        MetricsMenu.hide();
+    },
+    isVisible: function(){
+        return $('#toggle-metricsmenu').hasClass('active');
+    },
+    show: function(duration){
+        duration = duration ? duration : 0;
+        $('#metricsmenu').show().animate({height:64},duration);
+        $('#pagecontainer').animate({top:128},duration);
+        $('#toggle-metricsmenu').addClass('active');
+    },
+    hide: function(duration){
+        duration = duration ? duration : 0;
+        $('#metricsmenu').animate({height:0},duration,function(){$(this).hide()});
+        $('#pagecontainer').animate({top:64},duration);
+        $('#toggle-metricsmenu').removeClass('active');
+    }
+}
 
-        $('#toggle-addanime').click(function(){
-            // ...
+/** OPTIONS MENUS **/
+var OptionsMenu = {
+    init: function(){
+        // initialize the scrollbar
+        $('#optionsmenu-sections').mCustomScrollbar();
+
+        // handle toggling of search options pane
+        $('#toggle-optionsmenu').hoverable().click(function(){
+            OptionsMenu.isVisible() ? OptionsMenu.hide(500) : OptionsMenu.show(500);
         });
-        $('#toggle-metrics').click(function(){
-            $(this).hasClass('active') ? Topbar.hideSubmenu('metrics') : Topbar.showSubmenu('metrics');
+
+        // allow selecting of options in the optionmenu
+        $('.optionsmenu-item').hoverable().click(function(){
+            var section = $(this).parent('.optionsmenu-section').attr('data-section');
+            OptionsMenu.selectOption(section,$(this).attr('data-value'));
         });
-        $('#toggle-options').click(function(){
-            $(this).hasClass('active') ? Topbar.hideSubmenu('options') : Topbar.showSubmenu('options');
+
+        // select all the default options
+        OptionsMenu.resetOptions();
+
+        // hide the options menu by default
+        OptionsMenu.show();
+    },
+    isVisible: function(){
+        return $('#toggle-optionsmenu').hasClass('active');
+    },
+    resetOptions: function(){
+        $('.optionsmenu-section').each(function(){
+            var section = $(this).attr('data-section');
+            var value = $('.optionsmenu-item[data-default]',this).attr('data-value');
+            OptionsMenu.selectOption(section,value);
         });
     },
-    showSubmenu: function(type){
-        switch (type) {
-            case 'metrics':
-                $('#'+type+'Submenu').show().css({opacity:0.95,height:0}).stop().animate({height:128},300);
-                break;
-            default:
-                $('#'+type+'Submenu').show().css({opacity:0}).stop().animate({opacity:0.95},300);
-                break;
-        }
-        $('#toggle-'+type).addClass('active');
+    selectOption: function(section,value){
+        var sectionObj = $('.optionsmenu-section[data-section="'+section+'"]');
+        var itemObj = $('.optionsmenu-item[data-value="'+value+'"]',sectionObj);
+        var iconObj = $('.tickbox',itemObj);
+
+        $('.optionsmenu-item',sectionObj).removeClass('active');
+        $('.tickbox',sectionObj).addClass('fa-circle');
+        itemObj.addClass('active');
+        iconObj.removeClass('fa-circle').addClass('fa-check-circle');
     },
-    hideSubmenu: function(type){
-        switch (type) {
-            case 'metrics':
-                $('#'+type+'Submenu').show().css({opacity:0.95,height:128}).stop().animate({height:0},300,function(){$(this).hide();});
-                break;
-            default:
-                $('#'+type+'Submenu').show().css({opacity:0.95}).stop().animate({opacity:0},300,function(){$(this).hide();});
-                break;
-        }
-        $('#toggle-'+type).removeClass('active');
+    show: function(duration){
+        duration = duration ? duration : 0;
+        $('#optionsmenu').animate({right:0},duration);
+        $('#mainpanel').animate({right:240},duration);
+        $('#toggle-optionsmenu').addClass('active');
+    },
+    hide: function(duration){
+        duration = duration ? duration : 0;
+        $('#optionsmenu').animate({right:-240},duration);
+        $('#mainpanel').animate({right:0},duration);
+        $('#toggle-optionsmenu').removeClass('active');
     }
 };
 
