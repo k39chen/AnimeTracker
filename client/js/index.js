@@ -1,55 +1,4 @@
-// Meteor.call('searchHummingbird',' Junjō Romantica', function(err,res){
-//     console.log('searchHummingbird',res);
-// });
-
-// Meteor.call('fetchHummingbirdInfo',' Junjo\'s:gate Romantica',function(err,res){
-//     console.log('fetchHummingbirdInfo',res);
-// });
-
-Meteor.call('getFullAnimeData',1,function(err,res){
-    console.log('getFullAnimeData',res);
-});
-
-// Meteor.call('getShallowAnimeData',4240,function(err,res){
-//     console.log('getShallowAnimeData',res);
-// });
-
-// Meteor.call('fetchCompleteAnimeList',function(err,res){
-//     console.log('fetchCompleteAnimeList',err,res);
-// });
-
-Template.collectionPage.animes = function(){
-    var items = Animes.find({},{limit:45}).map(function(doc,index,cursor){
-        var props = {};
-        switch (doc.type) {
-            case 'tv'     : props.type = null; break;
-            case 'oav'    : props.type = 'OVA'; break;
-            case 'ona'    : props.type = 'ONA'; break;
-            case 'special': props.type = 'Special'; break;
-            case 'movie'  : props.type = 'Movie'; break;
-            default       : props.type = doc.type; break;
-        }
-        if (doc.type == 'tv') {
-            if (doc.numEpisodes == 0) {
-                props.episodes = doc.numEpisodes + ' Episodes';
-            } else {
-                props.episodes = 'Ongoing Series';
-            }
-        } else {
-            props.episodes = null;
-        }
-        return _.extend(doc,props);
-    });
-    return items;
-}
-Template.collectionPage.rendered = function(){
-    $('.gridItem').hoverable();
-}
-
 $(function(){
-
-    $('.options-value').hoverable();
-
     // intitialize the sidebar
     Sidebar.init();
 
@@ -59,16 +8,8 @@ $(function(){
     // initialize the anime info modal
     AnimeInfoModal.init();
 
-
-
-    $('.gridItem .subscribed-flag').click(function(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).toggleClass('active');
-
-        $('#modalAnimeInfo').reveal($(this).data());
-    });
+    // some miscellaneous hoverable items to initialize
+    $('.options-value').hoverable();
 
 });
 
@@ -198,8 +139,6 @@ var AnimeInfoModal = {
         pageObj.mCustomScrollbar('destroy');
         pageObj.mCustomScrollbar();
     }
-
-
 };
 
 /** CROPPER WIZARD **/
@@ -338,6 +277,7 @@ var CropperWizard = {
     }
 };
 
+/** UTILITIES **/
 String.prototype.slugify = function(){
   var str = this;
   str = str.replace(/^\s+|\s+$/g, ''); // trim
