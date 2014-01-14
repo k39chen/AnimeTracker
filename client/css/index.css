@@ -161,7 +161,8 @@ html, body, #container {}
 .animeInfo .subscribed-flag.active { background-color: #2DCA17; color: #FFF; border-color: #FFF; }
 .animeInfo .subscribed-flag.active.hover { background-color: #54CE42; }
 
-.animeInfo .modalpage { height: 280px; margin-top: 4px; }
+.animeInfo .modalpagecontainer { height: 280px; margin-top: 4px; }
+.animeInfo .modalpage {}
 .animeInfo .section { padding: 12px 24px; }
 
 .animeInfo .fields { margin-bottom: 18px; }

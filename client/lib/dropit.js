@@ -32,7 +32,8 @@
                         $('.dropit-open').removeClass('dropit-open').find('.dropit-submenu').hide();
                         settings.afterHide.call(this);
                         settings.beforeShow.call(this);
-                        $(this).parents(settings.triggerParentEl).addClass('dropit-open').find(settings.submenuEl).show();
+                        $(this).parents(settings.triggerParentEl).addClass('dropit-open').find(settings.submenuEl)
+                            .show().css({opacity:0}).stop().animate({opacity:1},300,function(){});
                         settings.afterShow.call(this);
                         return false;
                     });
@@ -40,7 +41,8 @@
                     // Close if outside click
                     $(document).on('click', function(){
                         settings.beforeHide.call(this);
-                        $('.dropit-open').removeClass('dropit-open').find('.dropit-submenu').hide();
+                        $('.dropit-open').removeClass('dropit-open').find('.dropit-submenu')
+                            .css({opacity:1}).stop().animate({opacity:0},300,function(){$(this).hide();});
                         settings.afterHide.call(this);
                     });
                     

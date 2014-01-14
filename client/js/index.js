@@ -1,22 +1,13 @@
-$(function(){
-    // intitialize the sidebar
-    Sidebar.init();
+$(document).ready(function(){
+    
+    Sidebar.init();         // intitialize the sidebar
+    MetricsMenu.init();     // initialize the metrics menu
+    OptionsMenu.init();     // initialize the options menu
+    AnimeInfoModal.init();  // initialize the anime info modal
 
-    // initialize the metrics menu
-    MetricsMenu.init();
-
-    // initialize the options menu
-    OptionsMenu.init();
-
-    // initialize the anime info modal
-    AnimeInfoModal.init();
-
-
-
+    // test revealing
     $('#toggle-addanime').hoverable().click(function(){
-
         $('#modalAddAnime').reveal();
-
     });
 });
 
@@ -118,7 +109,7 @@ var OptionsMenu = {
         OptionsMenu.resetOptions();
 
         // hide the options menu by default
-        OptionsMenu.show();
+        OptionsMenu.hide();
     },
     isVisible: function(){
         return $('#toggle-optionsmenu').hasClass('active');
@@ -187,8 +178,8 @@ var AnimeInfoModal = {
         $('.animeInfo-navitem[data-page="'+page+'"]').addClass('active');
 
         // reinitialize the scrollbar
-        pageObj.mCustomScrollbar('destroy');
-        pageObj.mCustomScrollbar();
+        $('.modalpagecontainer').mCustomScrollbar('destroy');
+        $('.modalpagecontainer').mCustomScrollbar();
     }
 };
 
@@ -327,29 +318,3 @@ var CropperWizard = {
             .animate({height:0},400);
     }
 };
-
-/** UTILITIES **/
-String.prototype.slugify = function(){
-  var str = this;
-  str = str.replace(/^\s+|\s+$/g, ''); // trim
-  str = str.toLowerCase();
-
-  // remove accents, swap ñ for n, etc
-  var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-  var to   = "aaaaaeeeeeiiiiooooouuuunc------";
-  for (var i=0, l=from.length ; i<l ; i++) {
-    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-  }
-
-  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-'); // collapse dashes
-
-  return str;
-}
-String.prototype.capitalize = function(){
-    var str = this;
-    return str.replace(/\w\S*/g, function(txt){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-}

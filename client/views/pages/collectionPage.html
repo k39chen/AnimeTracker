@@ -1,0 +1,27 @@
+<template name='collectionPage'>
+<div class='page' data-page='collection'>
+    <div class='grid'>
+        {{#each animes}}
+        {{> collectionItem}}
+        {{/each}}
+    </div>
+</div>
+</template>
+
+<template name='collectionItem'>
+<span class='gridItem'>
+    <div class='subscribed-flag fa fa-bookmark'></div>
+    {{#if cover}}
+    <img class='cover' src='{{cover}}' />
+    {{else}}
+    <img class='cover' src='assets/default_cover.jpg' />
+    {{/if}}
+    <span class='title'>{{title}}</span>
+    {{#if type}}
+    <span class='type'>{{type}}</span>
+    {{/if}}
+    {{#if episodes}}
+    <span class='episodes'>{{episodes}}</span>
+    {{/if}}
+</span>
+</template>

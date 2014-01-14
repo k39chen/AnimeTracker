@@ -1,0 +1,91 @@
+<template name='animeInfo'>
+<div class='animeInfo'>
+    <div class='leftpane'>
+        <ul class='animeInfo-navbar'>
+            <li>
+                <div class='animeInfo-navtrigger'><span></span> <i class='fa fa-chevron-down'></i></div>
+                <ul>
+                    <li class='animeInfo-navitem' data-page='profile'>Profile</li>
+                    <li class='animeInfo-navitem' data-page='music'>Music</li>
+                    <li class='animeInfo-navitem' data-page='recommendations'>Recommendations</li>
+                    <li class='animeInfo-navitem' data-page='friends'>Friends</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <img class='cover' src="http://static.hummingbird.me/anime/poster_images/000/004/676/large/1359285144_ced40a6b0022a466db175962c8aa26c3.png?1383493907">
+    </div>
+
+    <div class='rightpane'>
+        <div class='title'>Kamigami no Asobi ~Ludere deorum~</div>
+        <div class='modalpagecontainer'>
+            {{> animeInfoProfile}}
+            {{> animeInfoMusic}}
+            {{> animeInfoRecommendations}}
+            {{> animeInfoFriends}}
+        </div>
+    </div>
+</div>
+</template>
+
+<template name='animeInfoProfile'>
+<div class='modalpage' data-page='profile'>
+    <div class='subscribed-flag fa fa-bookmark'></div>
+    <div class='section'>
+        <div class='fields'>
+            <div class='field'>
+                <span class='name'>Type</span>
+                <span class='value'>TV Series</span>
+            </div>
+            <div class='field'>
+                <span class='name'>Status</span>
+                <span class='value blue'>Watching</span>
+            </div>
+            <div class='field'>
+                <span class='name'>Episodes</span>
+                <span class='value'>11 Episodes (Ongoing Series)</span>
+            </div>
+            <div class='field'>
+                <span class='name'>Genres</span>
+                <span class='value'>Action, Drama, Science Fiction</span>
+            </div>
+            <div class='field'>
+                <span class='name'>Themes</span>
+                <span class='value'>Fanservice, Pirates, Space</span>
+            </div>
+            <div class='field'>
+                <span class='name'>Rating</span>
+                <span class='value'>
+                    <i class='fa fa-star'></i>
+                    <i class='fa fa-star'></i>
+                    <i class='fa fa-star'></i>
+                    <i class='fa fa-star'></i>
+                    <i class='fa fa-star-o'></i>
+                </span>
+            </div>
+        </div>
+        <p>
+            Li Meifon is the head of a free, no expenses paid protection/security agency for escorting ships across outer space. Though only 16, she possesses great skill and leadership qualities while commanding her crew aboard their ship, the <i>Angel Links</i>. However, some unpleasant memories begin to trouble her and she starts questioning her own past and reason for existence. Join Li Meifon and the rest of the <i>Angel Links</i> crew on their adventures through the Oracion star system as they battle pirates, government organizations, and a Tao master, all while finally uncovering Meifon's dark and mysterious past.
+        </p>
+    </div>
+</div>
+</template>
+
+<template name='animeInfoMusic'>
+<div class='modalpage' data-page='music'>
+MUSIC
+</div>
+</template>
+
+<template name='animeInfoRecommendations'>
+<div class='modalpage' data-page='recommendations'>
+RECOMMENDATIONS
+</div>
+</template>
+
+<template name='animeInfoFriends'>
+<div class='modalpage' data-page='friends'>
+FRIENDS
+</div>
+</template>
