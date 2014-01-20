@@ -6,7 +6,7 @@
 standard-app-packages
 accounts-base
 accounts-ui
-accounts-facebook
+accounts-password
 autopublish
 insecure
 preserve-inputs

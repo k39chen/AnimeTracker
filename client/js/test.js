@@ -6,9 +6,9 @@
 //     console.log('fetchHummingbirdInfo',res);
 // });
 
-Meteor.call('getFullAnimeData',1,function(err,res){
-    console.log('getFullAnimeData',res);
-});
+// Meteor.call('getFullAnimeData',14896,function(err,res){
+//     console.log('getFullAnimeData',res);
+// });
 
 // Meteor.call('getShallowAnimeData',4240,function(err,res){
 //     console.log('getShallowAnimeData',res);

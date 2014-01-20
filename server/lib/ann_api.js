@@ -79,31 +79,53 @@ Meteor.methods({
                     id:    parseInt(getSingleField(item.id),10),
                     title: getSingleField(item.name),
                     type:  getSingleField(item.type).toLowerCase(),
-                    lastUpdate: null
+                    lastUpdate: null,
+                    dataHBI: false,
+                    dataANN: false
                 };
                 console.log('Fetching '+doc.id+': ('+doc.type+') '+doc.title);
-                // lets try to get the picture url
-                console.log('--- Fetching HBI...');
-                var hbi = Meteor.call('fetchHummingbirdInfo',doc.title.slugify());
-                if (hbi) {
-                    doc.hbAnimeId = hbi.hbAnimeId;
-                    if (hbi.pictureUrl == 'http://hummingbird.me/assets/missing-anime-cover.jpg') {
-                        hbi.pictureUrl = null;
-                    }
-                    doc.numEpisodes = hbi.numEpisodes;
-                    doc.cover = hbi.pictureUrl;
-                    console.log('--- SUCCESS');
-                } else {
-                    console.log('--- FAILED');
-                }
+                
                 // if this doesn't exist in the collection, add it
                 if (!Animes.findOne({id:doc.id})){
                     Animes.insert(doc);
                 }
             }
-            return Animes.find().fetch();
         }
-        return null;
+
+        // now that we have the complete cursory anime list, we will try to get the full data for each anime
+        Animes.find().forEach(function(doc){
+
+            console.log('--- Fetching data for '+doc.id+' > '+doc.title);
+
+            // Hummingbird
+            var hbiData = {};
+            var hbi = Meteor.call('fetchHummingbirdInfo',doc.title.slugify());
+            if (hbi) {
+                hbiData.hbAnimeId = hbi.hbAnimeId;
+                if (hbi.pictureUrl == 'http://hummingbird.me/assets/missing-anime-cover.jpg') {
+                    hbi.pictureUrl = null;
+                }
+                hbiData.cover = hbi.pictureUrl;
+                hbiData.dataHBI = true;
+                console.log('--- HBI SUCCESS');
+            } else {
+                console.log('--- HBI FAILED');
+            }
+
+            // // Anime News Network
+            var annData = Meteor.call('fetchAnimeData',doc.id);
+            if (annData) {
+                annData.dataANN = true;
+                console.log('--- ANN SUCCESS');
+            } else {
+                console.log('--- ANN FAILED');
+            }
+
+            Animes.update({id:doc.id},{$set:hbiData});
+            Animes.update({id:doc.id},{$set:annData});
+        });
+
+        return Animes.find().fetch();
     },
 
     fetchAnimeData: function(animeId) {
@@ -126,63 +148,69 @@ Meteor.methods({
             var foundVintage = false;
             doc.genres = [];
             doc.themes = [];
-            for (var i=0; i<info.length; i++) {
-                var type = info[i]['$'].type;
-                var value = info[i]['_'];
-                switch (type) {
-                    case 'Picture': doc.annPicture = info[i]['$'].src; break;
-                    case 'Genres': 
-                        var genre = value.toLowerCase();
-                        if (Genres.find({label:genre}).count()>0) {
-                            Genres.insert({label:genre});
-                        }
-                        doc.genres.push(genre);
-                        break;
-                    case 'Themes': doc.themes.push(value.toLowerCase()); break;
-                    case 'Objectionable content': doc.mature = value.toLowerCase(); break;
-                    case 'Plot Summary': doc.plot = value; break;
-                    case 'Running time': doc.runningTime = value; break;
-                    case 'Opening Theme': insertSong('op',animeId,value); break;
-                    case 'Ending Theme': insertSong('ed',animeId,value); break;
-                    case 'Insert Theme': insertSong('in',animeId,value); break;
-                    case 'Number of episodes': doc.numEpisodes = isNaN(parseInt(value)) 
-                        ? Episodes.find({animeId:animeId}).count()
-                        : parseInt(value);
-                        break;
-                    case 'Vintage':
-                        // TODO: still need to format (start/end)
-                        if (!foundVintage) {
-                            var reg = /[0-9]{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/g;
-                            var matches = value.match(reg);
-                            switch (matches.length) {
-                                case 1: doc.startDate = new Date(matches[0]).valueOf();
-                                case 2: doc.endDate = new Date(matches[1]).valueOf(); break;
-                                default: break;
+            if (info) {
+                for (var i=0; i<info.length; i++) {
+                    var type = info[i]['$'].type;
+                    var value = info[i]['_'];
+                    switch (type) {
+                        case 'Picture': doc.annPicture = info[i]['$'].src; break;
+                        case 'Genres': 
+                            var genre = value.toLowerCase();
+                            if (Genres.find({label:genre}).count()>0) {
+                                Genres.insert({label:genre});
                             }
-                            foundVintage = true;
-                        }
-                        break;
-                    default:
-                        break;
+                            doc.genres.push(genre);
+                            break;
+                        case 'Themes': doc.themes.push(value.toLowerCase()); break;
+                        case 'Objectionable content': doc.mature = value.toLowerCase(); break;
+                        case 'Plot Summary': doc.plot = value; break;
+                        case 'Running time': doc.runningTime = value; break;
+                        case 'Opening Theme': insertSong('op',animeId,value); break;
+                        case 'Ending Theme': insertSong('ed',animeId,value); break;
+                        case 'Insert Theme': insertSong('in',animeId,value); break;
+                        case 'Number of episodes': doc.numEpisodes = isNaN(parseInt(value)) 
+                            ? Episodes.find({animeId:animeId}).count()
+                            : parseInt(value);
+                            break;
+                        case 'Vintage':
+                            // TODO: still need to format (start/end)
+                            if (!foundVintage) {
+                                var matches = value.match(/[0-9]{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])/g);
+                                if (!matches) { matches = value.match(/[0-9]{4}\-(0[1-9]|1[012])/g); }
+                                if (!matches) { matches = value.match(/[0-9]{4}/g); }
+                                if (!matches) break;
+                                switch (matches.length) {
+                                    case 1: doc.startDate = new Date(matches[0]).valueOf(); break;
+                                    case 2: doc.endDate = new Date(matches[1]).valueOf(); break;
+                                    default: break;
+                                }
+                                foundVintage = true;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             // normalize the anime episode data and add it to the Episodes collection
             var episodes = data['episode'];
-            for (var i=0; i<episodes.length; i++) {
-                var num = parseInt(episodes[i]['$'].num,10);
-                var title = episodes[i].title[0]['_'];
-                
-                // skip unnumbered episodes
-                if (isNaN(num)) continue;
+            if (episodes) {
+                for (var i=0; i<episodes.length; i++) {
+                    var num = parseInt(episodes[i]['$'].num,10);
+                    var title = episodes[i].title[0]['_'];
+                    
+                    // skip unnumbered episodes
+                    if (isNaN(num)) continue;
 
-                // add this to the episode collection if it doesn't already exist
-                var epDoc = Episodes.findOne({animeId:animeId,num:num});
-                if (!epDoc) {
-                    Episodes.insert({
-                        animeId: animeId,
-                        num: num,
-                        title: title
-                    });
+                    // add this to the episode collection if it doesn't already exist
+                    var epDoc = Episodes.findOne({animeId:animeId,num:num});
+                    if (!epDoc) {
+                        Episodes.insert({
+                            animeId: animeId,
+                            num: num,
+                            title: title
+                        });
+                    }
                 }
             }
             doc.lastUpdate = new Date().valueOf();
@@ -210,7 +238,8 @@ Meteor.methods({
         // to fetch from the API is more than 1 day ago.
         var result = {};
         if (timeSinceLastUpdate(animeDoc) > 24) {
-            result = Meteor.call('fetchAnimeData',animeId);
+            Meteor.call('fetchAnimeData',animeId);
+            result= Animes.findOne({id:animeId});
         } else {
             result = animeDoc;
         }
@@ -302,9 +331,9 @@ function insertSong(type,animeId,songStr){
     }
 }
 function parseSongString(str) {
-    var matches = str.match(/^#([0-9]+):\s(.*)\sby\s(.*)$/);
+    var matches = str.match(/^#([0-9]+):\s(.*)\sby\s(.*)$/i);
     if (matches) {
-        var matches2 = matches[3].match(/^(.*)\s\((ep.*)\)$/);
+        var matches2 = matches[3].match(/^(.*)\s\((ep.*)\)$/i);
         return {
             num      : parseInt(matches[1],10),
             song     : matches[2].replace(/"/g,''),
@@ -312,7 +341,7 @@ function parseSongString(str) {
             episodes : matches2 ? matches2[2] : null
         };
     } else {
-        matches = str.match(/^(.*)\sby\s(.*)$/);
+        matches = str.match(/^(.*)\sby\s(.*)$/i);
         return {
             num      : 1,
             song     : matches[1].replace(/"/g,''),

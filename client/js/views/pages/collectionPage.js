@@ -1,5 +1,5 @@
 Template.collectionPage.animes = function(){
-    var items = Animes.find({},{limit:45}).map(function(doc,index,cursor){
+    var items = Animes.find({},{limit:5,sort:{id:-1}}).map(function(doc,index,cursor){
         var props = {};
         switch (doc.type) {
             case 'tv'     : props.type = null; break;
@@ -32,7 +32,14 @@ Template.collectionPage.rendered = function(){
 
     // define click event for grid items
     $('.gridItem').click(function(){
-        $('#modalAnimeInfo').reveal($(this).data());
+        var animeId = $(this).data('id');
+        console.log(animeId);
+        Meteor.call('getFullAnimeData',animeId,function(err,res){
+            if (res) {
+                console.log(res);
+            }
+        });
+        //$('#modalAnimeInfo').reveal($(this).data());
     });
 
     // define click event for grid item subscribe flags
@@ -49,5 +56,5 @@ Template.collectionPage.rendered = function(){
 Template.collectionItem.rendered = function(){
     var data = this.data;
     var obj = $(this.firstNode);
-    obj.data('data',data);
+    obj.data('id',data.id);
 }

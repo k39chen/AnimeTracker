@@ -17,7 +17,7 @@ body { background-color: #FFF; }
 body { min-width: 1200px; min-height: 400px; overflow-y: hidden; }
 b { font-family: 'HelveticaNeueBd', Helvetica, Arial, sans-serif; }
 
-html, body, #container {}
+html, body, #container { overflow: hidden; }
 #container { position: relative; }
 
 /** SIDEBAR **/
@@ -75,7 +75,7 @@ html, body, #container {}
 #search-field:-ms-input-placeholder { font-style: italic; color: #C6CFDB; }
 
 /** METRICS **/
-#metricsmenu { overflow: hidden; position: absolute; left: 0px; right: 0px; z-index: 10000; min-width: 960px; height: 64px; text-align: center; background-color: #ECF2F6; color: #97A1B0; border-top: solid 1px #D2DAE2; border-bottom: solid 1px #D2DAE2; }
+#metricsmenu { overflow: hidden; position: absolute; left: 0px; right: 0px; z-index: 9999; min-width: 960px; height: 64px; text-align: center; background-color: #ECF2F6; color: #97A1B0; border-top: solid 1px #D2DAE2; border-bottom: solid 1px #D2DAE2; }
 .metric { display: inline-block; margin: 7px 24px; text-align: center; }
 .metric > .value, .metric > .label { display: block; }
 .metric > .value { color: #555; font-size: 32px; font-family: 'HelveticaNeueLt'; margin-bottom: 4px; }
